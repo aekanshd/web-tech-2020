@@ -49,11 +49,6 @@ def order_count(order_item):
     return len(set(order_item.index))
 
 def get_item_pairs(order_item):
-    
-    #order_item = order_item.reset_index().as_matrix()
-    #order_item = order_item.as_matrix()
-    #for order_id, order_object in groupby(order_item, lambda x:x[0]):
-        #item_list = [item[1] for item in order_object]
     item_list = []
     for i in range(1,len(order_item)):
         if order_item[0][i] not in item_list:
@@ -115,8 +110,9 @@ def association_rules(order_item, min_support, rawdata):
             if item1 in j and item2 in j:
                 frequency+=1
         item_pairs['freqAB'][i] = frequency
-        item_pairs['supportAB'][i] = item_pairs['freqAB'][i] / len(item_pairs) * 100
+        item_pairs['supportAB'][i] = item_pairs['freqAB'][i] / len(item_pairs)
     item_pairs = item_pairs[item_pairs.freqAB !=0]
+    item_pairs = item_pairs[item_pairs.supportAB>min_support]
     
 
     item_pairs = item_pairs.sort_values(['item_A', 'freqAB'], ascending=(True, False))
@@ -131,7 +127,7 @@ def association_rules(order_item, min_support, rawdata):
 
 def market_basket(user_purchases, all_purchases):
     recommendations = []
-    rules = association_rules(all_purchases, 0.01, all_purchases)
+    rules = association_rules(all_purchases, 0.02, all_purchases)
     
     
     
