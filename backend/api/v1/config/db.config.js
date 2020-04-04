@@ -1,6 +1,12 @@
 module.exports = {
-    HOST: "",
+    HOST: "localhost",
     USER: "",
     PASSWORD: "",
-    DB: ""
+    DB: "books_app",
+    PORT:27017
 };
+/* books_app:
+    - books
+    - users
+    - images
+*/
