@@ -10,6 +10,7 @@ module.exports = (router) => {
 	router.put('/user',mainController.createUser)
 	router.post('/validUserName',mainController.validateUsername)
 	router.post('/user',mainController.fetchUser)
+	router.delete('/user/:username',mainController.deleteUser)
 	router.post('/book',mainController.storeBook)
 	router.get('/book',mainController.fetchBook)
 	router.get('/image',mainController.fetchImage)

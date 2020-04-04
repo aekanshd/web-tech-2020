@@ -65,6 +65,26 @@ exports.fetchUser = (req,res,next) =>{
 	})
 }
 
+exports.deleteUser = (req,res,response) => {
+	user.find ({username: req.params.username}, (err,users) =>{
+		if (err) {
+			console.log("Error :,\n",err);
+			return res.status(500).send({error:"Interal Error..."})
+		}
+		if (users.length == 0) {
+			console.log("Error : Invalid Username");
+			return res.status(404).send({error:"Invalid Username"})
+		}
+		user.deleteOne({_id:users[0]._id},(err,users) =>{
+			if (err) {
+				console.log("Error :,\n",err);
+				return res.status(500).send({error:"Interal Error..."})
+			}
+			return res.status(200).send({})
+		})
+	})
+}
+
 exports.storeBook = (req,res,next) => {
 	newBook = new book({
 		bookname : req.body.name,
@@ -100,5 +120,5 @@ exports.fetchBook = (req,res,next) => {
 }
 
 exports.fetchImage = (req,res,next) => {
-	
+
 }
