@@ -6,7 +6,6 @@ let query = ''
 
 user = model.user
 book = model.book
-image = model.image 
 
 exports.home = (req, res, next) => {
 	res.send("Hello Team 2020!")
@@ -118,7 +117,51 @@ exports.fetchBook = (req,res,next) => {
 		return res.status(200).send(books)	
 	})
 }
-
-exports.fetchImage = (req,res,next) => {
-
+/*
+	- use username (as it is unique for a user) for loading user profile picture
+	request format : {imageType:user,value:username}
+	- isbn to fetch image of a book
+	request format : {imageType:book,value:isbn}
+*/
+exports.storeImage = (req,res,next) => {
+	var tempPath = req.file.path;
+	var targetPath = ""
+	if (req.body.imageType == 'user') {
+		targetPath = __dirname + "images/profiles/"
+	}
+	else if (req.body.imageType == 'book') {
+		targetPath = __dirname + "images/books/"
+	}
+	if (path.extname(req.file.originalname).toLowerCase() === ".png") {
+		targetPath = targetPath + req.body.value + "png"
+		fs.rename(tempPath, targetPath, err => {
+		if (err) {
+			console.log("Error :,\n",err);
+			return res.status(500).send({error:"Interal Error..."})
+		} 
+		return res.status(200).send({});
+		});
+	}
+	if (path.extname(req.file.originalname).toLowerCase() === ".jpeg") {
+		targetPath = targetPath + req.body.value + "jpeg"
+		fs.rename(tempPath, targetPath, err => {
+		if (err) {
+			console.log("Error :,\n",err);
+			return res.status(500).send({error:"Interal Error..."})
+		} 
+		return res.status(200).send({});
+		});
+	}
+	if (path.extname(req.file.originalname).toLowerCase() === ".jpg") {
+		targetPath = targetPath + req.body.value + "jpg"
+		fs.rename(tempPath, targetPath, err => {
+		if (err) {
+			console.log("Error :,\n",err);
+			return res.status(500).send({error:"Interal Error..."})
+		} 
+		return res.status(200).send({});
+		});
+	} 
+	return res.status(415).send({"message":"Invalid file format..."})
 }
+

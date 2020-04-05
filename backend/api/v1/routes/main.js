@@ -1,3 +1,7 @@
+const multer =  require("multer")
+const upload = multer({
+	dest: "/temp"
+  });
 module.exports = (router) => {
 
 	var mainController = require('../controllers/mainController')
@@ -13,5 +17,5 @@ module.exports = (router) => {
 	router.delete('/user/:username',mainController.deleteUser)
 	router.post('/book',mainController.storeBook)
 	router.get('/book',mainController.fetchBook)
-	router.get('/image',mainController.fetchImage)
+	router.post('/image',upload.single("image"),mainController.storeImage)
 }

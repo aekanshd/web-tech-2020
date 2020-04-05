@@ -30,27 +30,3 @@ var bookSchema = new mongoose.Schema({
     sellers:[]
 })
 exports.book = mongoose.model("books",bookSchema)
-
-var imageSchema = new mongoose.Schema(
-{ 	
-    img: {
-        data: Buffer,
-        contentType: String 
-    },
-    imgMeta:{
-        type: String,
-        value: String
-    }
-}
-);
-exports.image = mongoose.model('images',imageSchema);
-/* 
-storing image:
-var newImage = new image;
-a.img.data = fs.readFileSync(imagePath);
-a.img.contentType = 'image/png';
-a.imgMeta={ type: String, value: String};
-a.save (error => {
-    console.log("Failed to store image to collection");
-}
-*/
