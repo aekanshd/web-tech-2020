@@ -4,9 +4,11 @@ const model = require('../models/db.js')
 const request = require('request-promise')
 let query = ''
 
+const profiles_dir = __dirname + "images/profiles/"
+const books_dir = __dirname + "images/books/"
 user = model.user
 book = model.book
-
+image = model.image
 exports.home = (req, res, next) => {
 	res.send("Hello Team 2020!")
 }
@@ -60,7 +62,14 @@ exports.fetchUser = (req,res,next) =>{
 			console.log("Wrong Password...")
 			return res.status(403).send({error:"Wrong Password..."})
 		}	
-		return res.status(200).send(userData)
+		return res.status(200).send({
+			username: userData.username,
+			name: userData.name,
+			email: userData.email,
+			registerdate: userData.registerDate,
+			interests: userData.interests,
+			purchases: userData.purchases
+		})
 	})
 }
 
@@ -122,46 +131,104 @@ exports.fetchBook = (req,res,next) => {
 	request format : {imageType:user,value:username}
 	- isbn to fetch image of a book
 	request format : {imageType:book,value:isbn}
+	- supported file formats: png,jpg,jpeg
 */
 exports.storeImage = (req,res,next) => {
 	var tempPath = req.file.path;
 	var targetPath = ""
+	newImage = new image()
+	newImage.imagetype = req.body.imageType
+	newImage.value = req.body.value
 	if (req.body.imageType == 'user') {
-		targetPath = __dirname + "images/profiles/"
+		targetPath = profiles_dir
 	}
 	else if (req.body.imageType == 'book') {
-		targetPath = __dirname + "images/books/"
+		targetPath = books_dir
 	}
 	if (path.extname(req.file.originalname).toLowerCase() === ".png") {
-		targetPath = targetPath + req.body.value + "png"
+		newImage.imageformat = "png"
+		targetPath = targetPath + req.body.value +"."+ "png"		
 		fs.rename(tempPath, targetPath, err => {
 		if (err) {
 			console.log("Error :,\n",err);
 			return res.status(500).send({error:"Interal Error..."})
 		} 
+		newImage.save(err => {
+			if (err) {
+				console.log("Error : Failed to create record\n",err);
+				return res.status(500).send({error:"Interal Error, Failed to create record..."})	
+			}		
+		})
 		return res.status(200).send({});
 		});
 	}
 	if (path.extname(req.file.originalname).toLowerCase() === ".jpeg") {
-		targetPath = targetPath + req.body.value + "jpeg"
+		newImage.imageformat = "jpeg"
+		targetPath = targetPath + req.body.value +"."+ "jpeg"
 		fs.rename(tempPath, targetPath, err => {
 		if (err) {
 			console.log("Error :,\n",err);
 			return res.status(500).send({error:"Interal Error..."})
-		} 
+		}
+		newImage.save(err => {
+			if (err) {
+				console.log("Error : Failed to create record\n",err);
+				return res.status(500).send({error:"Interal Error, Failed to create record..."})	
+			}		
+		})
 		return res.status(200).send({});
 		});
 	}
 	if (path.extname(req.file.originalname).toLowerCase() === ".jpg") {
-		targetPath = targetPath + req.body.value + "jpg"
+		newImage.imageformat = "jpg"
+		targetPath = targetPath + req.body.value +"."+ "jpg"
 		fs.rename(tempPath, targetPath, err => {
 		if (err) {
 			console.log("Error :,\n",err);
 			return res.status(500).send({error:"Interal Error..."})
 		} 
+		newImage.save(err => {
+			if (err) {
+				console.log("Error : Failed to create record\n",err);
+				return res.status(500).send({error:"Interal Error, Failed to create record..."})	
+			}		
+		})
 		return res.status(200).send({});
 		});
 	} 
 	return res.status(415).send({"message":"Invalid file format..."})
+}
+
+/*
+	- use username for loading user profile picture
+	request format : {imageType:user,value:username}
+	- isbn to fetch image of a book
+	request format : {imageType:book,value:isbn}
+	- supported file formats: png,jpg,jpeg
+*/
+exports.fetchImage = (req,res,next) => {
+	var targetPath = ""
+	image.findOne({imageType:req.body.imageType,value:req.body.value},(err,imageData) =>{
+		if (err) {
+			console.log("Error :,\n",err);
+			return res.status(500).send({error:"Interal Error..."})
+		}
+		if (req.body.imageType == 'user') {
+			targetPath = profiles_dir + imageData.value +"."+ imageData.imageFormat
+		}
+		else if (req.body.imageType == 'book') {
+			targetPath = books_dir + imageData.value +"."+ imageData.imageFormat
+		}
+		fs.readFile(targetPath, (err, data) => {
+			if (err) {
+				console.log("Error Failed To Read Image.\n",err);
+				return res.status(500).send({error:"Interal Error..."})
+			}
+			return res.status(200).send({
+				"Content-Type": "image/"+imageData.imageFormat,
+				"data": data
+			})	
+		})
+	})
 }
 

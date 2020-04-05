@@ -22,7 +22,7 @@ exports.user = mongoose.model("users",userSchema)
 var bookSchema = new mongoose.Schema({
     bookname: String,
     authors: [String],
-    isbn: string,
+    isbn: String,
     publication: String,
     language: String,
     genres: [String],
@@ -30,3 +30,12 @@ var bookSchema = new mongoose.Schema({
     sellers:[]
 })
 exports.book = mongoose.model("books",bookSchema)
+
+var imageSchema = new mongoose.Schema(
+{ 	
+    imagetype: String,
+    value: String,
+    imageformat: String,
+}
+);
+exports.image = mongoose.model('images',imageSchema);

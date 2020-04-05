@@ -18,4 +18,5 @@ module.exports = (router) => {
 	router.post('/book',mainController.storeBook)
 	router.get('/book',mainController.fetchBook)
 	router.post('/image',upload.single("image"),mainController.storeImage)
+	router.get('/image',mainController.fetchImage)
 }
