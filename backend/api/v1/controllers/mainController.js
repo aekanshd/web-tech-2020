@@ -17,7 +17,7 @@ exports.validateUsername = (req, res, next) => {
 	user.find({username: req.body.username}, (err,users) =>{
 		if (err) {
 			console.log("Error :,\n",err);
-			return res.status(500).send({error:"Interal Error..."})
+			return res.status(500).send({error:"Internal Error..."})
 		}
 		if (users.length > 0) {
 			console.log("Error : Username Already Used");
@@ -41,7 +41,7 @@ exports.createUser = (req, res, next) => {
 	newUser.save(err => {
 		if (err) {
 			console.log("Error : Failed to create record,\n",err);
-			return res.status(500).send({error:"Interal Error, Failed to create record..."})	
+			return res.status(500).send({error:"Internal Error, Failed to create record..."})	
 		}
 	});
 	return res.status(200).send({})
@@ -200,6 +200,50 @@ exports.storeImage = (req,res,next) => {
 }
 
 /*
+	- use username (as it is unique for a user) for loading user profile picture
+	request format : {imageType:user,value:username}
+	- isbn to fetch image of a book
+	request format : {imageType:book,value:isbn}
+	- supported file formats: png,jpg,jpeg
+*/
+exports.deleteImage = (req,res,next) => {
+	let targetPath = ""
+	image.findOne({imageType:req.body.imageType,value:req.body.value},(err,imageData) =>{
+		if (err) {
+			console.log("Error :,\n",err);
+			return res.status(500).send({error:"Internal Error..."})
+		}
+		if (req.body.imageType == 'user') {
+			targetPath = profiles_dir + imageData.value +"."+ imageData.imageFormat
+		}
+		else if (req.body.imageType == 'book') {
+			targetPath = books_dir + imageData.value +"."+ imageData.imageFormat
+		}
+		
+		console.log("Final unlink path:", targetPath);		
+
+		try {
+			fs.unlinkSync(targetPath);
+			console.log('successfully deleted', targetPath);
+
+			image.deleteOne({imageType:req.body.imageType,value:req.body.value},(err,users) =>{
+				if (err) {
+					console.log("Error in deleting image record:,\n",err);
+					return res.status(500).send({error:"Internal Error..."})
+				}
+				return res.status(200).send({})
+			})
+
+		} catch (err) {
+			console.log('fs unlink error:', err)
+			return res.status(500).send({error:"Internal Error..."})
+		}
+	});
+ 
+	return res.status(415).send({"message":"Invalid file format..."})
+}
+
+/*
 	- use username for loading user profile picture
 	request format : {imageType:user,value:username}
 	- isbn to fetch image of a book
@@ -231,4 +275,3 @@ exports.fetchImage = (req,res,next) => {
 		})
 	})
 }
-

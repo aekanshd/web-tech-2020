@@ -19,4 +19,5 @@ module.exports = (router) => {
 	router.get('/book',mainController.fetchBook)
 	router.post('/image',upload.single("image"),mainController.storeImage)
 	router.get('/image',mainController.fetchImage)
+	router.delete('/image',mainController.deleteImage)
 }
