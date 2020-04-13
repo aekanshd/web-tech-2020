@@ -284,3 +284,23 @@ exports.fetchImage = (req,res,next) => {
 		})
 	})
 }
+
+exports.recommendBooks = (req,res,next) => {
+	let {PythonShell} = require('python-shell')
+
+	let options = {
+	mode: 'text',
+	pythonPath: process.env.PYTHON_EXE_LOCATION,
+	pythonOptions: ['-u'], // get print results in real-time
+	scriptPath: process.env.PYTHON_FILE_LOCATION,
+	// args: ['value1', 'value2', 'value3']
+	};
+
+	PythonShell.run('Recommend_api.py', options, function (err, results) {
+	if (err) throw err;
+	// results is an array consisting of messages collected during execution
+		console.log('results: %j', results);
+		return res.status(200).send(results);
+	});
+	return;
+}

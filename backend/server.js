@@ -5,6 +5,8 @@ const port = 62020
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 
+require('dotenv').config()
+
 /*--------------------
   Initialize Express
   --------------------*/

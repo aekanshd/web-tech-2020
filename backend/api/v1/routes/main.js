@@ -20,4 +20,5 @@ module.exports = (router) => {
 	router.post('/image',upload.single("image"),mainController.storeImage)
 	router.get('/image',mainController.fetchImage)
 	router.delete('/image',mainController.deleteImage)
+	router.post('/recommend',mainController.recommendBooks)
 }

@@ -3,11 +3,15 @@ import pandas
 import pandas as pd
 from collections import Counter
 from itertools import combinations
-import csv
+import csv, os
 from mlxtend.frequent_patterns import apriori
 from mlxtend.frequent_patterns import association_rules
-
+from dotenv import load_dotenv
 app = Flask(__name__)
+load_dotenv(dotenv_path=os.path.dirname(os.path.abspath(__file__))+"/backend/.env", verbose=True)
+
+base_dir = os.getenv("PYTHON_FILE_LOCATION")
+
 """
 Format:
 
@@ -33,7 +37,7 @@ userid, book1, book2
 """
 
 def write_history(userid, books):
-    v = open("history.csv")
+    v = open(base_dir+"/history.csv")
     r = csv.reader(v)
     row0 = next(r)
     print(row0)
@@ -148,7 +152,7 @@ def get_recommend():
     history = {}
     purchases = []
     u_id = 'user2'
-    with open('history.csv', 'r') as f:
+    with open(base_dir+'/history.csv', 'r') as f:
         reader = csv.reader(f)
         
         for i, line in enumerate(reader):
