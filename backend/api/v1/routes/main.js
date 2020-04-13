@@ -1,6 +1,6 @@
 const multer =  require("multer")
 const upload = multer({
-	dest: "/temp"
+	dest: "multer_temp/"
   });
 module.exports = (router) => {
 

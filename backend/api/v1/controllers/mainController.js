@@ -162,7 +162,7 @@ exports.storeImage = (req,res,next) => {
 		return res.status(200).send({});
 		});
 	}
-	if (path.extname(req.file.originalname).toLowerCase() === ".jpeg") {
+	else if (path.extname(req.file.originalname).toLowerCase() === ".jpeg") {
 		newImage.imageformat = "jpeg"
 		targetPath = targetPath + req.body.value +"."+ "jpeg"
 		fs.rename(tempPath, targetPath, err => {
@@ -179,7 +179,7 @@ exports.storeImage = (req,res,next) => {
 		return res.status(200).send({});
 		});
 	}
-	if (path.extname(req.file.originalname).toLowerCase() === ".jpg") {
+	else if (path.extname(req.file.originalname).toLowerCase() === ".jpg") {
 		newImage.imageformat = "jpg"
 		targetPath = targetPath + req.body.value +"."+ "jpg"
 		fs.rename(tempPath, targetPath, err => {
@@ -195,8 +195,11 @@ exports.storeImage = (req,res,next) => {
 		})
 		return res.status(200).send({});
 		});
+	}
+	else {
+		return res.status(415).send({"message":"Invalid file format..."})
 	} 
-	return res.status(415).send({"message":"Invalid file format..."})
+	return;
 }
 
 /*
@@ -207,17 +210,21 @@ exports.storeImage = (req,res,next) => {
 	- supported file formats: png,jpg,jpeg
 */
 exports.deleteImage = (req,res,next) => {
-	let targetPath = ""
-	image.findOne({imageType:req.body.imageType,value:req.body.value},(err,imageData) =>{
+	var targetPath = ""
+	console.log("imageType:", req.body.imageType);
+	console.log("value:", req.body.value);
+	image.findOne({imagetype:req.body.imageType,value:req.body.value},(err,imageData) =>{
 		if (err) {
 			console.log("Error :,\n",err);
 			return res.status(500).send({error:"Internal Error..."})
 		}
 		if (req.body.imageType == 'user') {
-			targetPath = profiles_dir + imageData.value +"."+ imageData.imageFormat
+			console.log("It's a user!");
+			targetPath = profiles_dir + imageData.value +"."+ imageData.imageformat
 		}
 		else if (req.body.imageType == 'book') {
-			targetPath = books_dir + imageData.value +"."+ imageData.imageFormat
+			console.log("It's a book!");
+			targetPath = books_dir + imageData.value +"."+ imageData.imageformat
 		}
 		
 		console.log("Final unlink path:", targetPath);		
@@ -226,13 +233,14 @@ exports.deleteImage = (req,res,next) => {
 			fs.unlinkSync(targetPath);
 			console.log('successfully deleted', targetPath);
 
-			image.deleteOne({imageType:req.body.imageType,value:req.body.value},(err,users) =>{
+			image.deleteOne({imagetype:req.body.imageType,value:req.body.value},(err,users) =>{
 				if (err) {
 					console.log("Error in deleting image record:,\n",err);
 					return res.status(500).send({error:"Internal Error..."})
 				}
-				return res.status(200).send({})
+				res.status(200).send({})
 			})
+			return;
 
 		} catch (err) {
 			console.log('fs unlink error:', err)
@@ -240,7 +248,8 @@ exports.deleteImage = (req,res,next) => {
 		}
 	});
  
-	return res.status(415).send({"message":"Invalid file format..."})
+	// return res.status(415).send({"message":"Invalid file format..."})
+	return;
 }
 
 /*
