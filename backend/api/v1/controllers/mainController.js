@@ -2,6 +2,9 @@ const path = require('path')
 const fs = require('fs')
 const model = require('../models/db.js')
 const request = require('request-promise')
+const url = require('url');
+const $ = require('cheerio');
+const puppeteer = require('puppeteer-firefox');
 let query = ''
 
 const profiles_dir = __dirname + "images/profiles/"
@@ -302,5 +305,112 @@ exports.recommendBooks = (req,res,next) => {
 		console.log('results: %j', results);
 		return res.status(200).send(results);
 	});
+	return;
+}
+
+/*
+exports.fetchDetails = (req,res,next) => {
+	let search_type = (req.query.type === undefined)?"q":req.query.type;
+	let search_query = req.query.q;
+
+	let api_url = new URL("http://openlibrary.org/search.json")
+	api_url.searchParams.append(search_type,search_query)
+	api_url.searchParams.append("lang","eng")
+	console.log("api_url:", api_url.toString())
+	
+	const options = {
+		method: "GET",
+		uri: api_url.toString(),
+		headers: {},
+		body: {},
+		json: true
+	}
+
+	request(options).then(response => {
+		if (response.length === 0) return res.status(400).send("400: Invalid")
+		else {
+			return res.status(200).send(response);
+		}
+	}).catch(err => {
+		console.error("API Call error:", err);
+		return res.status(500).send(err)
+	});
+	return;
+} */
+
+/*
+	Okay, so I'll explain the issue here.
+	Amazon API - Associate API doesn't help. (it's just one store)
+	GoodRead API - Has throttle limit ((per second limit) so can't use AJAX.
+	Each webpage will need to be opened in a separate
+	"headless" browser. And we need to look at each of the
+	HTML of each of these separate pages. This takes a lot of time.
+	A lot of these websites like Flipkart has "randomised" class names,
+	and no IDs so it's really hard to scrape through.
+	So Varun and I decided to instead directly scrape through
+	IndiaBookStore.Net because it does all the work for us.
+	It fetches results from all major book stores for us.
+	So if we can somehow scrape through the details as well as
+	different book prices, our problem is solved with just one API.
+	See, it was easy to scrape, but now literally every webpage
+	has dynamic JS loads. It's hard without a headless browser.
+	And the code below is just for ONE. Imagine if we do for 5 book stores. Lol.
+	Bro, Varun and I have already seen apis, Rediff API, Google Books,
+	GoodReads, OpenLibrary, ISBNDB, etc etc. It's of no use.
+	Throttling/paid/vague. All of them.
+*/
+// So what's the plan now? So what's the issue with that? - Need a little help
+// because my brain is kinda fried right now -.- Wasted too much time for right APIs
+// If you can scrape out for me...
+// Instead of opening a new window can't we fetch details of a book and send to front end?
+/* 
+	> So Varun and I decided to instead directly scrape through
+	IndiaBookStore.Net because it does all the work for us. (Does it have fixed classes and ids in the html page? yes)
+
+	> See the commented out code above. Run that. It does that only.
+	Fetches book meta data from openLibrary. What went wrong there?
+	1. It still doesn't solve the manpower needed to write code for all stores.
+	2. Each PROPER book title gives 40+ ISBNS. (different language, types, formats, places)
+	3. So you're kinda in this loop of just fetching the right data. 
+	ohk. gimme some time to catch up with you > yes please, I'll go eat haven't eaten ugh
+	*/
+exports.fetchDetails = (req,res,next) => {
+	let search_query = req.query.q.split(' ').join('+');
+	let api_url = new URL("https://www.indiabookstore.net/search")
+	api_url.searchParams.append("q", search_query)
+	
+	console.log("API URL:", api_url.toString());
+	puppeteer
+	.launch()
+	.then(function(browser) {
+		return browser.newPage();
+	})
+	.then(function(page) {
+		return page.goto(api_url.toString()).then(function() {
+			return page.content();
+		});
+	})
+	.then(function(html) {
+		let books = [];
+		// India Book Store is GOD
+		// console.log($("#results"));
+		
+		$('#results > li', html).each(function() {
+			// This functions iterates through each <li>
+			var book = {};
+			book['isbn'] = $(this).attr("id");
+			book['imgsrc'] = $(this).find('#' + book['isbn'] + ' img').attr("src");
+			//T
+			console.log(book['imgsrc']);
+			//Awesome Now title, author, prices. @ravi plz
+			books.push(book)
+		});
+		return res.status(200).send(books);
+		// It's 8 PM guys :(
+	})
+	.catch(function(err) {
+		return res.status(500).send({error:err});
+	});
+
 	return;
 }
