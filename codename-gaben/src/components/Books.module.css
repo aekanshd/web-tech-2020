@@ -1,0 +1,10 @@
+.ContainerInner {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	padding-top: 60px;
+}
+
+.ContainerInner > * {
+	margin-bottom: 30px;
+}
