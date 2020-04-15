@@ -3,8 +3,8 @@ const fs = require('fs')
 const model = require('../models/db.js')
 const request = require('request-promise')
 const url = require('url');
-const $ = require('cheerio');
-const puppeteer = require('puppeteer');
+var $ = require('cheerio');
+const puppeteer = require('puppeteer-firefox');
 let query = ''
 
 const profiles_dir = __dirname + "images/profiles/"
@@ -374,44 +374,102 @@ exports.fetchDetails = (req,res,next) => {
 	3. So you're kinda in this loop of just fetching the right data. 
 	ohk. gimme some time to catch up with you > yes please, I'll go eat haven't eaten ugh
 	*/
+
 exports.fetchDetails = (req, res, next) => {
 	let search_query = req.query.q;
-	let api_url = new URL("https://www.indiabookstore.net/search")
-	api_url.searchParams.append("q", search_query)
+	let api_url = new URL("/search/books/" + search_query, "https://isbndb.com/")
 
 	console.log("API URL:", api_url.toString());
 
-	puppeteer
-		.launch()
-		.then(function (browser) {
-			return browser.newPage();
-		})
-		.then(function (page) {
-			return page.goto(api_url.toString()).then(function () {
-				return page.content();
-			});
-		})
-		.then(function (html) {
-			let books = [];
-			// console.log(html);
-			console.log($("#results"));
+	const options = {
+		method: "GET",
+		uri: api_url.toString(),
+		headers: {},
+		body: {},
+		json: true
+	}
 
-			$('#results > li', html).each(function () {
-				// This functions iterates through each <li>
-				var book = {};
-				book['isbn'] = $(this).attr("id");
-				book['imgsrc'] = $(this).find('#' + book['isbn'] + ' img').attr("src");
-				//T
-				console.log(book['imgsrc']);
-				//Awesome Now title, author, prices. @ravi plz
-				books.push(book)
+	request(options)
+	.then(function(page) {
+		let books = [];
+		// let div = $('#block-multipurpose-business-theme-content', html).html();
+		// console.log(div);
+		$ = $.load(page);
+		$('#block-multipurpose-business-theme-content').children("div").first().children("div .book-content").each(function () {
+			// console.log($(this).html());
+			let book = {};
+			book.image_url = new URL ($(this).find("img.img-responsive").prop("src"), "https://isbndb.com/").toString();
+			console.log("IMAGE:", $(this).find("img.img-responsive").first().prop("src"));
+			// book.title = $(this).find("h2.search-result-title > a").html();
+			let data = $(this).find("dl > dt").each(function(index) {
+				switch (index) {
+					case 0:
+						book.authors = $(this).children("strong").remove().end().text().trim();
+						console.log($(this).children("strong").remove().end().text().trim());
+						break;
+					case 1:
+						book.title = $(this).children("strong").remove().end().text().trim();
+						console.log($(this).children("strong").remove().end().text().trim());
+						break;
+					
+					case 2:
+						book.isbn = $(this).children("strong").remove().end().text().trim();
+						console.log($(this).children("strong").remove().end().text().trim());
+						break;
+					
+					case 3:
+						book.publisher = $(this).children("strong").remove().end().text().trim();
+						console.log($(this).children("strong").remove().end().text().trim());
+						break;
+					
+					case 4:
+						book.publish_date = $(this).children("strong").remove().end().text().trim();
+						console.log($(this).children("strong").remove().end().text().trim());
+						break;
+					
+					case 5:
+						book.bind = $(this).children("strong").remove().end().text().trim();
+						console.log($(this).children("strong").remove().end().text().trim());
+						break;
+					
+					default:
+						break;
+				}
+				console.log("===========");
 			});
-			return res.status(200).send(books);
-			// It's 8 PM guys :(
-		})
-		.catch(function (err) {
-			return res.status(500).send({ error: err });
+			console.log("TITLE:", $(this).find("h2.search-result-title > a").html());
+			books.push(book);
+			console.log("======");
 		});
+		return res.status(200).send(books);
+	})
+	.catch(function(err) {
+		return res.status(500).send({ error: err });
+	});
+
+	// puppeteer
+	// 	.launch()
+	// 	.then(function (browser) {
+	// 		return browser.newPage();
+	// 	})
+	// 	.then(function (page) {
+	// 		return page.goto(api_url.toString()).then(function () {
+	// 			return page.content();
+	// 		});
+	// 	})
+	// 	.then(function (html) {
+	// 		let books = [];
+	// 		$('#block-multipurpose-business-theme-content').children("div").first().children("div .book-content").each(function () {
+	// 			console.log($(this));
+	// 			let book = {};
+	// 			book["image_url"] = $(this).find("img .img-responsive").attr("src");
+	// 			books.push(book);
+	// 		});
+	// 		return res.status(200).send(books);
+	// 	})
+	// 	.catch(function (err) {
+	// 		return res.status(500).send({ error: err });
+	// 	});
 
 	return;
 }

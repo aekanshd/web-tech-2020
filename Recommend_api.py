@@ -9,7 +9,7 @@ from mlxtend.frequent_patterns import association_rules
 from dotenv import load_dotenv
 app = Flask(__name__)
 load_dotenv(dotenv_path=os.path.dirname(os.path.abspath(__file__))+"/backend/.env", verbose=True)
-
+import json
 base_dir = os.getenv("PYTHON_FILE_LOCATION")
 
 """
@@ -135,23 +135,20 @@ def market_basket(user_purchases, all_purchases):
     
     
     
-    
-    for i in user_purchases:
-        r2 = rules[rules.item_A == i]
-        if(len(r2)>0):
-            recommendations.append(r2)
-    print(recommendations)
-
+    out = list(rules["item_B"]);
+    if(len(out)>5):
+        out = out[0:5]
+    return out;
 
 all_purchases = [[1,2,3,4],[2,3,6], [1,2], [4,7,9], [1,7,9], [2,6,7], [6,1,2,8]]
 #market_basket(3, all_purchases)
     
 @app.route('/recommend', methods=["POST"])
 def get_recommend():
-    #u_id = request.get_json()["userid"]
+    u_id = request.get_json()["userid"]
     history = {}
     purchases = []
-    u_id = 'user2'
+    #u_id = 'user2'
     with open(base_dir+'/history.csv', 'r') as f:
         reader = csv.reader(f)
         
@@ -162,10 +159,14 @@ def get_recommend():
     #print(purchases)
     if u_id in history.keys():
         recommendation = 0
-        print(history[u_id])
+        #print(history[u_id])
         recommendation = market_basket(history[u_id], purchases)
-        return recommendation
+        json_dump = json.dumps({"user":u_id, "books":recommendation});
+        return json_dump
+        
     else:
-        return 0;
+        json_dump = json.dumps({"user":u_id, "books":[]});
+        return json_dump;
+        
 get_recommend()
 
