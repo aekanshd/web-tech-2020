@@ -10,6 +10,10 @@ class App extends Component {
     value: "",
   };
 
+  componentDidMount() {
+
+  }
+
   search = async (val) => {
     this.setState({ loading: true });
     const results = await search(
