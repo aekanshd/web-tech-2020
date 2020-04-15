@@ -4,7 +4,6 @@ const model = require('../models/db.js')
 const request = require('request-promise')
 const url = require('url');
 var $ = require('cheerio');
-const puppeteer = require('puppeteer-firefox');
 let query = ''
 
 const profiles_dir = __dirname + "images/profiles/"
