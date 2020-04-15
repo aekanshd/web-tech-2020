@@ -41,9 +41,12 @@ class App extends Component {
           <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
             <div className="px-4 py-6 sm:px-0">
               <div className="md:w-1/2 mx-auto">
-                <label className="block text-gray-700 text-lg font-bold mb-4" for="search">
+                <label
+                  className="block text-gray-700 text-lg font-bold mb-4"
+                  for="search"
+                >
                   Search
-                  </label>
+								</label>
                 <input
                   className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                   id="search"

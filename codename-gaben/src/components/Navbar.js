@@ -18,16 +18,16 @@ class Navbar extends Component {
 								>
 									<path
 										className="inline-flex"
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										stroke-width="2"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth="2"
 										d="M4 6h16M4 12h16M4 18h16"
 									/>
 									<path
 										className="hidden"
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										stroke-width="2"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth="2"
 										d="M6 18L18 6M6 6l12 12"
 									/>
 								</svg>
@@ -70,16 +70,21 @@ class Navbar extends Component {
 									viewBox="0 0 24 24"
 								>
 									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										stroke-width="2"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth="2"
 										d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
 									/>
 								</svg>
 							</button>
 							<div className="ml-3 relative">
 								<div>
-									<button className="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-white transition duration-150 ease-in-out">
+									<button className="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-white transition duration-150 ease-in-out"
+										onClick={() => {
+											let menu = document.querySelector(".profileMenu");
+											menu.classList.toggle("hidden");
+										}}
+									>
 										<img
 											className="h-8 w-8 rounded-full"
 											src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
@@ -87,7 +92,12 @@ class Navbar extends Component {
 										/>
 									</button>
 								</div>
-								<div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg">
+								<div className="profileMenu origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg hidden"
+									onMouseLeave={() => {
+										let menu = document.querySelector(".profileMenu");
+										menu.classList.add("hidden");
+									}}
+								>
 									<div className="py-1 rounded-md bg-white shadow-xs">
 										<Link
 											to="/profile"
@@ -95,12 +105,15 @@ class Navbar extends Component {
 										>
 											Your Profile
 										</Link>
-										<Link
-											to="/signout"
+										<button
 											className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+											onClick={() => {
+												localStorage.clear();
+												window.location = "/";
+											}}
 										>
 											Sign out
-										</Link>
+										</button>
 									</div>
 								</div>
 							</div>

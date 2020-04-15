@@ -19,7 +19,10 @@ class Profile extends Component {
 							alt="Profile"
 						/>
 						<h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
-							John Doe
+							{localStorage.getItem("name")}
+						</h2>
+						<h2 class="mt-2 text-center text-xl leading-9 text-gray-900">
+							{localStorage.getItem("email")}
 						</h2>
 					</div>
 				</div>
