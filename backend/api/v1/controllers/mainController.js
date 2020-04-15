@@ -398,8 +398,9 @@ exports.fetchDetails = (req, res, next) => {
 		$('#block-multipurpose-business-theme-content').children("div").first().children("div .book-content").each(function () {
 			// console.log($(this).html());
 			let book = {};
-			book.image_url = new URL ($(this).find("img.img-responsive").prop("src"), "https://isbndb.com/").toString();
-			console.log("IMAGE:", $(this).find("img.img-responsive").first().prop("src"));
+			// book.image_url = new URL ($(this).find("object.img-responsive").prop("src"), "https://isbndb.com/").toString();
+			book.image_url = $(this).find("object.img-responsive").prop("data");
+			console.log("IMAGE:", $(this).find("object.img-responsive").first().prop("src"));
 			// book.title = $(this).find("h2.search-result-title > a").html();
 			let data = $(this).find("dl > dt").each(function(index) {
 				switch (index) {
