@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import Books from "./components/Books";
 import { search } from "./utils";
 
@@ -11,30 +10,31 @@ class App extends Component {
   };
 
   componentDidMount() {
-
+    setInterval((event) => {
+      console.log("Refreshing...");
+    }, 5000);
   }
 
-  search = async (val) => {
+  getBooks = async (val) => {
     this.setState({ loading: true });
     const results = await search(
-      `https://api.themoviedb.org/3/search/movie?query=${val}&api_key=dbc0a6d62448554c27b6167ef7dabb1b`
+      `http://localhost:62020/api/v1/book/details?q=${val}`
     );
     const books = results;
-
     this.setState({ books, loading: false });
   };
 
   onChangeHandler = async (e) => {
-    this.search(e.target.value);
+    this.getBooks(e.target.value.trim());
     this.setState({ value: e.target.value });
+    console.log(this.state.books)
   };
 
   get renderBooks() {
-    let books = <h1></h1>;
+    let books = <h1 className="mt-6 mb-6 text-center leading-9 text-3xl text-gray-500">Try searching for a book...</h1>;
     if (this.state.books) {
       books = <Books list={this.state.books} />;
     }
-
     return books;
   }
 
@@ -47,7 +47,7 @@ class App extends Component {
               <div className="md:w-1/2 mx-auto">
                 <label
                   className="block text-gray-700 text-lg font-bold mb-4"
-                  for="search"
+                  htmlFor="search"
                 >
                   Search
 								</label>
@@ -61,7 +61,7 @@ class App extends Component {
                 />
               </div>
             </div>
-            {this.renderBooks}
+            {this.state.loading ? <h1 className="mt-6 mb-6 text-center leading-9 text-3xl text-gray-500">Loading...</h1> : this.renderBooks}
           </div>
         </main>
       </div>

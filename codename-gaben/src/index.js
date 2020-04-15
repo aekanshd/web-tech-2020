@@ -9,8 +9,8 @@ import About from './components/About';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Profile from './components/Profile';
-import Signout from './components/Signout';
 import * as serviceWorker from './serviceWorker';
+import Detail from './components/Detail';
 
 function PrivateRoute({ component: Component, ...rest }) {
 	return (
@@ -33,8 +33,8 @@ function AppRouter() {
 					<Route path="/about/" component={About} />
 					<Route path="/login/" component={Login} />
 					<Route path="/signup/" component={Signup} />
+					<Route path="/book/" component={Detail} />
 					<PrivateRoute path="/profile/" component={Profile} />
-					<Route path="/signout/" component={Signout} />
 				</div>
 			</Router>
 		</div>
