@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { search } from "../utils";
+
 
 class Profile extends Component {
 	state = {
