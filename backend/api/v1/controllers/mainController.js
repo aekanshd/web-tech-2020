@@ -3,7 +3,7 @@ const fs = require('fs')
 const model = require('../models/db.js')
 const request = require('request-promise')
 const url = require('url');
-const $ = require('cheerio');
+const cheerio = require('cheerio');
 const puppeteer = require('puppeteer');
 let query = ''
 
@@ -375,43 +375,22 @@ exports.fetchDetails = (req,res,next) => {
 	ohk. gimme some time to catch up with you > yes please, I'll go eat haven't eaten ugh
 	*/
 exports.fetchDetails = (req, res, next) => {
-	let search_query = req.query.q;
+	let search_query = req.query.q.split('%20').join('+');
 	let api_url = new URL("https://www.indiabookstore.net/search")
 	api_url.searchParams.append("q", search_query)
-
+	books = []
 	console.log("API URL:", api_url.toString());
+	request(api_url.toString())
+    .then(function (html) {
+		const $ = cheerio.load(html)
+		//console.log(html)
+		console.log($('.bookDetailsLink').attr('a'))
+		return res.status(200).send(books)
+    })
+    .catch(function (err) {
+        return res.status(500).send({"error": "Internal error"});
+    });
+	
 
-	puppeteer
-		.launch()
-		.then(function (browser) {
-			return browser.newPage();
-		})
-		.then(function (page) {
-			return page.goto(api_url.toString()).then(function () {
-				return page.content();
-			});
-		})
-		.then(function (html) {
-			let books = [];
-			// console.log(html);
-			console.log($("#results"));
-
-			$('#results > li', html).each(function () {
-				// This functions iterates through each <li>
-				var book = {};
-				book['isbn'] = $(this).attr("id");
-				book['imgsrc'] = $(this).find('#' + book['isbn'] + ' img').attr("src");
-				//T
-				console.log(book['imgsrc']);
-				//Awesome Now title, author, prices. @ravi plz
-				books.push(book)
-			});
-			return res.status(200).send(books);
-			// It's 8 PM guys :(
-		})
-		.catch(function (err) {
-			return res.status(500).send({ error: err });
-		});
-
-	return;
+	
 }
