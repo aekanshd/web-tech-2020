@@ -6,8 +6,8 @@ A repository for Mini Project of Web Tech 2, 6th Sem, Computer Science, PES Univ
   Express
   React
   Node
-
-# Deliverables
+# Phase 1
+## Deliverables
   - Backend ML - Market Basket Analysis (Done)
   - Database - Books and Users Express accesses DB. 
   - Ajax - MUST XHR, Periodic Refresh, Selective Download, Polling, Throttling (FRONTEND) - Varun
