@@ -13,12 +13,20 @@ A repository for Mini Project of Web Tech 2, 6th Sem, Computer Science, PES Univ
   - Ajax - MUST XHR, Periodic Refresh, Selective Download, Polling, Throttling (FRONTEND) - Varun
   - User Authentication - Uname, Password 
 ## Backend
-  - Get data from DB - Express - Aekansh
-  - Recommendation
-  - Web Scraping - Hrishikesh?
+  - Get data from DB - Express (Done)
+  - Recommendation (Done)
+  - Web Scraping (Done)
 ## API
-  - Search API for web scraping
-  - Display the details of a book 
-  - Load Recommendation (Done) in JSON (Pending)
-  - User search history stats
+  - Search API for web scraping (Done)
+  - Display the details of a book (Done)
+  - Load Recommendation (Done) in JSON (Done)
+  - User search history stats (Done)
+  
+# Phase 2
+  - Fix the GUI - Modal Issue (Pending)
+  - Connect Recommendation API to main site (Pending)
+  - Unit Testing (Pending)
+  - System Testing (Pending)
+  - Performance Testing (Pending)
+  - Vulnerability Testing (Pending)
     
