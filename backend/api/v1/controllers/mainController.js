@@ -5,7 +5,7 @@ const request = require('request-promise')
 const url = require('url');
 var $ = require('cheerio');
 let query = ''
-
+const {spawn} = require('child_process');
 const profiles_dir = __dirname + "images/profiles/"
 const books_dir = __dirname + "images/books/"
 user = model.user
@@ -289,15 +289,22 @@ exports.fetchImage = (req, res, next) => {
 
 exports.recommendBooks = (req, res, next) => {
 	let { PythonShell } = require('python-shell')
+	console.log("Hello 1");
 
+	console.log("Hello 2");
+
+	let username = req.body.user;
+	console.log(username);
 	let options = {
 		mode: 'text',
-		pythonPath: process.env.PYTHON_EXE_LOCATION,
+		pythonPath: "D:\\Program Files (x86)\\Python\\Python36\\python.exe",
 		pythonOptions: ['-u'], // get print results in real-time
-		scriptPath: process.env.PYTHON_FILE_LOCATION,
+		scriptPath: "E:\\Documents\\PESU\\6th Semester\\Web Technologies 2 Lab\\Project\\web-tech-2020-master",
+		args:username
 		// args: ['value1', 'value2', 'value3']
 	};
-
+	console.log(options.pythonPath);
+	console.log(options.scriptPath);
 	PythonShell.run('Recommend_api.py', options, function (err, results) {
 		if (err) throw err;
 		// results is an array consisting of messages collected during execution
