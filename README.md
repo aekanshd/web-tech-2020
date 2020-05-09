@@ -24,7 +24,7 @@ A repository for Mini Project of Web Tech 2, 6th Sem, Computer Science, PES Univ
   
 # Phase 2
   - Fix the GUI - Modal Issue (Pending)
-  - Connect Recommendation API to main site (Pending)
+  - Connect Recommendation API to main site (Done)
   - Unit Testing (Pending)
   - System Testing (Pending)
   - Performance Testing (Pending)
