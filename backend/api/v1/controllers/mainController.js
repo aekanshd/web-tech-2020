@@ -339,6 +339,8 @@ exports.recommendBooks = (req, res, next) => {
 		if (err) throw err;
 		// results is an array consisting of messages collected during execution
 		console.log('results: %j', results);
+		
+
 		return res.status(200).send(results);
 	});
 	return;
