@@ -8,11 +8,41 @@ let query = ''
 const {spawn} = require('child_process');
 const profiles_dir = __dirname + "images/profiles/"
 const books_dir = __dirname + "images/books/"
+var dataArray = [];
 user = model.user
 book = model.book
 image = model.image
 exports.home = (req, res, next) => {
 	res.send("Hello Team 2020!")
+}
+
+exports.storeHistory = (req, res, next) =>{
+	user = req.body.username;
+	book = req.body.isbn;
+	let { PythonShell } = require('python-shell')
+	console.log("Hello 1");
+
+	console.log("Hello 2");
+
+	let options = {
+		mode: 'text',
+		pythonPath: process.env.PYTHON_EXE_LOCATION,
+		pythonOptions: ['-u'], // get print results in real-time
+		scriptPath: process.env.PYTHON_FILE_LOCATION,
+		args:[user, book]
+		// args: ['value1', 'value2', 'value3']
+	};
+	console.log(options.pythonPath);
+	console.log(options.scriptPath);
+	PythonShell.run('storehistory.py', options, function (err, results) {
+		if (err) throw err;
+		// results is an array consisting of messages collected during execution
+		console.log('results: %j', results);
+		return res.status(200).send(results);
+	});
+	return;
+
+
 }
 
 exports.validateUsername = (req, res, next) => {
@@ -297,9 +327,9 @@ exports.recommendBooks = (req, res, next) => {
 	console.log(username);
 	let options = {
 		mode: 'text',
-		pythonPath: "D:\\Program Files (x86)\\Python\\Python36\\python.exe",
+		pythonPath: process.env.PYTHON_EXE_LOCATION,
 		pythonOptions: ['-u'], // get print results in real-time
-		scriptPath: "E:\\Documents\\PESU\\6th Semester\\Web Technologies 2 Lab\\Project\\web-tech-2020-master",
+		scriptPath: process.env.PYTHON_FILE_LOCATION,
 		args:username
 		// args: ['value1', 'value2', 'value3']
 	};
