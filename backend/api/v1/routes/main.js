@@ -23,5 +23,6 @@ module.exports = (router) => {
 	router.get('/image', mainController.fetchImage)
 	router.delete('/image', mainController.deleteImage)
 	router.post('/recommend', mainController.recommendBooks)
+	router.post('/storeHistory', mainController.storeHistory)
 	router.options('/user', (req, res, next) => res.status(200).send({}))
 }
