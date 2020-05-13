@@ -55,4 +55,56 @@ describe("Server", ()=>{
 				done();
 			});
 	});
+	it("Fetches User", done=>{
+		chai
+			.request("localhost:62020/api/v1")
+			.post("/fetchUser")
+			.send({"username":"Hrishi", "password":"1234"})
+			.end((err, res)=>{
+				expect(res).to.have.status(200);
+				done();
+			});
+	});
+	it("Fetches User", done=>{
+		chai
+			.request("localhost:62020/api/v1")
+			.post("/fetchUser")
+			.send({"username":"Hrishi", "password":"5678"})
+			.end((err, res)=>{
+				expect(res).to.have.status(403);
+				expect(res.text).to.equals("Wrong Password...");
+				done();
+			});
+	});
+	it("Fetches User", done=>{
+		chai
+			.request("localhost:62020/api/v1")
+			.post("/fetchUser")
+			.send({"username":"", "password":"5678"})
+			.end((err, res)=>{
+				expect(res).to.have.status(404);
+				expect(res.text).to.equals("Invalid Username");
+				done();
+			});
+	});
+	it("Store Books", done=>{
+		chai
+			.request("localhost:62020/api/v1")
+			.post("/storeBook")
+			.send({"name":"Watchmen", 
+				"isbn":"5678", 
+				"authors":"Alan Moore",
+				"publication":"DC", 
+				"genres":"Comics", 
+				"sellers":"none", 
+				"description":"Neo Noir Crime story", 
+				"language":"English"})
+
+			.end((err, res)=>{
+				expect(res).to.have.status(200);
+				
+				done();
+			});
+	});
+
 });
