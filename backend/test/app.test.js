@@ -1,13 +1,14 @@
-const app = require("E:\\Documents\\PESU\\6th Semester\\Web Technologies 2 Lab\\Project\\web-tech-2020-master\\backend\\api\\v1\\controllers\\mainController");
+const path  = require("path");
+const app = require("../server");
 const chai = require("chai");
-const chaiHttp = require("chai-Http");
+const chaiHttp = require("chai-http");
 
 const {expect} = chai;
 chai.use(chaiHttp);
 describe("Server", ()=>{
 	it("Welcome", done=>{
 		chai
-			.request("localhost:62020/api/v1")
+			.request(app)
 			.get("/")
 			.end((err, res)=>{
 				expect(res).to.have.status(200);
