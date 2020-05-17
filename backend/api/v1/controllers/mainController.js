@@ -68,6 +68,7 @@ exports.createUser = (req, res, next) => {
 		email: req.body.email,
 		registerDate: req.body.registerDate,
 		interests: req.body.interests,
+		imageString: req.body.imageString,
 		purchases: []
 	})
 	newUser.save(err => {
@@ -100,7 +101,8 @@ exports.fetchUser = (req, res, next) => {
 			email: userData.email,
 			registerdate: userData.registerDate,
 			interests: userData.interests,
-			purchases: userData.purchases
+			purchases: userData.purchases,
+			imageString: userData.imageImage
 		})
 	})
 }
@@ -165,6 +167,7 @@ exports.fetchBook = (req, res, next) => {
 	request format : {imageType:book,value:isbn}
 	- supported file formats: png,jpg,jpeg
 */
+/*
 exports.storeImage = (req, res, next) => {
 	var tempPath = req.file.path;
 	var targetPath = ""
@@ -232,7 +235,7 @@ exports.storeImage = (req, res, next) => {
 		return res.status(415).send({ "message": "Invalid file format..." })
 	}
 	return;
-}
+}*/
 
 /*
 	- use username (as it is unique for a user) for loading user profile picture
@@ -241,6 +244,7 @@ exports.storeImage = (req, res, next) => {
 	request format : {imageType:book,value:isbn}
 	- supported file formats: png,jpg,jpeg
 */
+/*
 exports.deleteImage = (req, res, next) => {
 	var targetPath = ""
 	console.log("imageType:", req.body.imageType);
@@ -282,7 +286,7 @@ exports.deleteImage = (req, res, next) => {
 
 	// return res.status(415).send({"message":"Invalid file format..."})
 	return;
-}
+}*/
 
 /*
 	- use username for loading user profile picture
@@ -291,6 +295,7 @@ exports.deleteImage = (req, res, next) => {
 	request format : {imageType:book,value:isbn}
 	- supported file formats: png,jpg,jpeg
 */
+/*
 exports.fetchImage = (req, res, next) => {
 	var targetPath = ""
 	image.findOne({ imageType: req.body.imageType, value: req.body.value }, (err, imageData) => {
@@ -316,7 +321,7 @@ exports.fetchImage = (req, res, next) => {
 		})
 	})
 }
-
+*/
 exports.recommendBooks = (req, res, next) => {
 	let { PythonShell } = require('python-shell')
 	console.log("Hello 1");
