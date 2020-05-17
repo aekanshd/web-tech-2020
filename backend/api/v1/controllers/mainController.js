@@ -8,6 +8,8 @@ let query = ''
 const {spawn} = require('child_process');
 const profiles_dir = __dirname + "images/profiles/"
 const books_dir = __dirname + "images/books/"
+const history_csv = path.resolve(path.join("../", "history.csv"));
+console.log(history_csv);
 var dataArray = [];
 user = model.user
 book = model.book
@@ -386,16 +388,16 @@ exports.fetchDetails = (req, res, next) => {
 	let api_url = new URL("/search/books/" + search_query, "https://isbndb.com/")
 
 	console.log("API URL:", api_url.toString());
-	request(api_url.toString())
-    .then(function (html) {
-		const $ = cheerio.load(html)
-		//console.log(html)
-		console.log($('.bookDetailsLink').attr('a'))
-		return res.status(200).send(books)
-    })
-    .catch(function (err) {
-        return res.status(500).send({"error": "Internal error"});
-    });
+	// request(api_url.toString())
+    // .then(function (html) {
+	// 	const $ = cheerio.load(html)
+	// 	//console.log(html)
+	// 	console.log($('.bookDetailsLink').attr('a'))
+	// 	return res.status(200).send(books)
+    // })
+    // .catch(function (err) {
+    //     return res.status(500).send({"error": "Internal error"});
+    // });
 	
 
 	const options = {
@@ -519,5 +521,108 @@ exports.fetchMoreDetails = (req, res, next) => {
 		.catch(function (err) {
 			return res.status(500).send({ error: err });
 		});
+	return;
+}
+
+exports.fetchUserBookDetails = async (req, res, next) => {
+	let username = req.params.username;
+	let books = [];
+	
+	fs.readFile(history_csv, (err, data) => {
+		if (err) {
+			console.log("Error Failed To Read Image.\n", err);
+			return res.status(500).send({ error: "Interal Error..." })
+		}
+
+		let users = data.toString().split("\n");
+		users.forEach(element => {
+			let history = element.split(",");
+			if (history[0] == username) {
+				history.shift();
+				let promises = [];
+				history.forEach(element => {
+					console.log("Searching for ISBN:", element);
+					
+					let search_query = element;
+					let api_url = new URL("/search/books/" + search_query, "https://isbndb.com/");
+
+					console.log("API URL:", api_url.toString());
+					// request(api_url.toString())
+					// .then(function (html) {
+					// 	const $ = cheerio.load(html)
+					// 	//console.log(html)
+					// 	console.log($('.bookDetailsLink').attr('a'))
+					// 	return res.status(200).send(books)
+					// })
+					// .catch(function (err) {
+					// 	return res.status(500).send({"error": "Internal error"});
+					// });
+					
+
+					const options = {
+						method: "GET",
+						uri: api_url.toString(),
+						headers: {},
+						body: {},
+						json: true
+					}
+
+					promises.push(request(options)); 
+				});
+				
+				Promise.all(promises)
+				.then(function(results) {
+					results.forEach(result => {
+						$ = $.load(result);
+						$('#block-multipurpose-business-theme-content').children("div").first().children("div .book-content").each(function () {
+							let book = {};
+							book.image_url = $(this).find("object.img-responsive").prop("data");
+							let data = $(this).find("dl > dt").each(function (index) {
+								switch (index) {
+									case 0:
+										book.authors = $(this).children("strong").remove().end().text().trim();
+										// console.log($(this).children("strong").remove().end().text().trim());
+										break;
+									case 1:
+										book.title = $(this).children("strong").remove().end().text().trim();
+										// console.log($(this).children("strong").remove().end().text().trim());
+										break;
+
+									case 2:
+										book.isbn = $(this).children("strong").remove().end().text().trim();
+										// console.log($(this).children("strong").remove().end().text().trim());
+										break;
+
+									case 3:
+										book.publisher = $(this).children("strong").remove().end().text().trim();
+										// console.log($(this).children("strong").remove().end().text().trim());
+										break;
+
+									case 4:
+										book.publish_date = $(this).children("strong").remove().end().text().trim();
+										// console.log($(this).children("strong").remove().end().text().trim());
+										break;
+
+									case 5:
+										book.bind = $(this).children("strong").remove().end().text().trim();
+										// console.log($(this).children("strong").remove().end().text().trim());
+										break;
+
+									default:
+										break;
+								}
+							});
+							books.push(book);
+						});
+					});
+					res.status(200).send(books);
+				}.bind({books: books}))
+				.catch(function (err) {
+					res.status(500).send({ error: err });
+				});
+			}
+		});
+	})
+
 	return;
 }
