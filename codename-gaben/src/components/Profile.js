@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
-import { search } from "../utils";
 
 
 class Profile extends Component {
@@ -17,9 +15,10 @@ class Profile extends Component {
 					<div>
 						<img
 							class="mx-auto h-64 w-64 rounded-full border-solid border-8 border-gray-600"
-							src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
+							src={localStorage.getItem("image") || "../../public/images/default.png"}
 							alt="Profile"
 						/>
+						// Okay wait this wont work... Just a sec.
 						<h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
 							{localStorage.getItem("name")}
 						</h2>

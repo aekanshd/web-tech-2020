@@ -22,8 +22,9 @@ class Login extends Component {
 				localStorage.setItem("registerdate", res.data.registerdate);
 				localStorage.setItem("interests", res.data.interests);
 				localStorage.setItem("purchases", res.data.purchases);
-				window.location = "/profile"
 			})
+		window.location = "/profile"
+		// Okay, this handles fetch.
 	}
 
 	render() {
