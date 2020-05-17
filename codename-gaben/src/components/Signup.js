@@ -11,16 +11,24 @@ class Signup extends Component {
 		password: '',
 		registerDate: Date.now(),
 		interests: 'Reading',
+		image: Object
 	};
 
 	handleSubmit = event => {
 		event.preventDefault();
 		const signup = this.state;
+		const file = this.state.image
+  		const reader = new FileReader();
+		reader.addEventListener("load", function () { localStorage.setItem("image", reader.result) }, false);
+		if (file) {
+		  reader.readAsDataURL(file);
+		  console.log(reader.result)
+		}
 		axios.put('http://localhost:62020/api/v1/user', signup)
 			.then(res => {
 				console.log(res);
 				// console.log(res.data);
-				window.location = "/login" //This line of code will redirect you once the submission is succeed
+				// window.location = "/login" //This line of code will redirect you once the submission is succeed
 			})
 	}
 
@@ -95,6 +103,8 @@ class Signup extends Component {
 								/>
 							</div>
 						</div>
+						<input type="file"
+						onChange={event => { this.setState({ image: event.target.files[0] }); console.log(event.target.files[0]) }} />
 						<div className="mt-6">
 							<button
 								type="submit"
