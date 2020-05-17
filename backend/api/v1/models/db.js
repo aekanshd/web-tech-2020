@@ -15,7 +15,8 @@ var userSchema = new mongoose.Schema({
     email: String,
     registerdate: Date,
     interests: [String],
-    purchases: [{bookid: String,purchaseDate: Date}]
+    purchases: [{bookid: String,purchaseDate: Date}],
+    imageString: String
 })
 exports.user = mongoose.model("users",userSchema)
 
@@ -30,7 +31,8 @@ var bookSchema = new mongoose.Schema({
     sellers:[]
 })
 exports.book = mongoose.model("books",bookSchema)
-
+/*
+//Not Using it for now
 var imageSchema = new mongoose.Schema(
 { 	
     imagetype: String,
@@ -39,3 +41,4 @@ var imageSchema = new mongoose.Schema(
 }
 );
 exports.image = mongoose.model('images',imageSchema);
+*/
