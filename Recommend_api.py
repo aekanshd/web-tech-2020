@@ -10,6 +10,8 @@ from dotenv import load_dotenv
 app = Flask(__name__)
 load_dotenv(dotenv_path=os.path.dirname(os.path.abspath(__file__))+"/backend/.env", verbose=True)
 import json
+import sys
+import requests
 base_dir = os.getenv("PYTHON_FILE_LOCATION")
 
 """
@@ -37,10 +39,10 @@ userid, book1, book2
 """
 
 def write_history(userid, books):
-    v = open(base_dir+"/history.csv")
+    v = open("history.csv")
     r = csv.reader(v)
     row0 = next(r)
-    print(row0)
+    #print(row0)
     
 write_history(10, 20)
 
@@ -57,12 +59,12 @@ def get_item_pairs(order_item):
     for i in range(1,len(order_item)):
         if order_item[0][i] not in item_list:
             item_list.append(order_item[0][i])
-    print(item_list)
+    #print(item_list)
     for item_pair in combinations(item_list, 2):
         yield item_pair
 
 def association_rules(order_item, min_support, rawdata):
-    print("Starting order_item: {:22d}".format(len(order_item)))
+    #print("Starting order_item: {:22d}".format(len(order_item)))
     items = []
     indices = []
     for i in range(len(order_item)):
@@ -79,33 +81,32 @@ def association_rules(order_item, min_support, rawdata):
     qualifying_items       = item_stats[item_stats['support'] >= min_support].index
     order_item             = order_item[order_item.isin(qualifying_items)]
 
-    print("Items with support >= {}: {:15d}".format(min_support, len(qualifying_items)))
-    print("Remaining order_item: {:21d}".format(len(order_item)))
+    #print("Items with support >= {}: {:15d}".format(min_support, len(qualifying_items)))
+    #print("Remaining order_item: {:21d}".format(len(order_item)))
 
     order_size             = freq(order_item.index)
     qualifying_orders      = order_size[order_size >= 2].index
     order_item             = order_item[order_item.index.isin(qualifying_orders)]
 
-    print("Remaining orders with 2+ items: {:11d}".format(len(qualifying_orders)))
-    print("Remaining order_item: {:21d}".format(len(order_item)))
+    #print("Remaining orders with 2+ items: {:11d}".format(len(qualifying_orders)))
+    #print("Remaining order_item: {:21d}".format(len(order_item)))
 
     item_stats             = freq(order_item).to_frame("freq")
     item_stats['support']  = item_stats['freq'] / order_count(order_item) * 100
 
-    print(order_item2)
+    #print(order_item2)
     item_pair_gen          = get_item_pairs(order_item2)
 
     item_pairs              = freq(item_pair_gen).to_frame("freqAB")
     item_pairs['supportAB'] = item_pairs['freqAB'] / len(qualifying_orders) * 100
 
-    print("Item pairs: {:31d}".format(len(item_pairs)))
-
+    #print("Item pairs: {:31d}".format(len(item_pairs)))
     item_pairs              = item_pairs[item_pairs['supportAB'] >= min_support]
 
-    print("Item pairs with support >= {}: {:10d}\n".format(min_support, len(item_pairs)))
+    #print("Item pairs with support >= {}: {:10d}\n".format(min_support, len(item_pairs)))
 
     item_pairs = item_pairs.reset_index().rename(columns={'level_0': 'item_A', 'level_1': 'item_B'})
-    print(len(item_pairs))
+    #print(len(item_pairs))
     for i in range(len(item_pairs)):
         item1 = item_pairs['item_A'][i]
         item2 = item_pairs['item_B'][i]
@@ -121,7 +122,7 @@ def association_rules(order_item, min_support, rawdata):
 
     item_pairs = item_pairs.sort_values(['item_A', 'freqAB'], ascending=(True, False))
     #print(item_pairs)
-
+    
     return item_pairs
 
 
@@ -131,37 +132,47 @@ def association_rules(order_item, min_support, rawdata):
 
 def market_basket(user_purchases, all_purchases):
     recommendations = []
-    rules = association_rules(all_purchases, 0.02, all_purchases)
+    rules = association_rules(all_purchases, 0.002, all_purchases)
     
     
     
     out = list(rules["item_B"]);
-    if(len(out)>5):
-        out = out[0:5]
-    return out;
+    #print("out = ", out)
+    return list(set(out));
 
 all_purchases = [[1,2,3,4],[2,3,6], [1,2], [4,7,9], [1,7,9], [2,6,7], [6,1,2,8]]
 #market_basket(3, all_purchases)
     
-@app.route('/recommend', methods=["POST"])
+
 def get_recommend():
-    u_id = request.get_json()["userid"]
+    
     history = {}
     purchases = []
-    #u_id = 'user2'
-    with open(base_dir+'/history.csv', 'r') as f:
+    #print("SYS", sys.argv[1])
+    
+    u_id = sys.argv[1]
+    with open('history.csv', 'r') as f:
         reader = csv.reader(f)
         
         for i, line in enumerate(reader):
             history[line[0]] = line[1:]
             purchases.append(line[1:])
-    print(history[u_id])
+    #print(history[u_id])
     #print(purchases)
     if u_id in history.keys():
         recommendation = 0
         #print(history[u_id])
         recommendation = market_basket(history[u_id], purchases)
+        
+        print(u_id)
+        recommendation = list(filter(lambda a:a!="", recommendation))
         json_dump = json.dumps({"user":u_id, "books":recommendation});
+        #print(recommendation)
+        #print(json_dump)
+        
+        for i in recommendation:
+            print(i)
+            
         return json_dump
         
     else:

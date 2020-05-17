@@ -5,14 +5,44 @@ const request = require('request-promise')
 const url = require('url');
 var $ = require('cheerio');
 let query = ''
-
+const {spawn} = require('child_process');
 const profiles_dir = __dirname + "images/profiles/"
 const books_dir = __dirname + "images/books/"
+var dataArray = [];
 user = model.user
 book = model.book
 image = model.image
 exports.home = (req, res, next) => {
 	res.send("Hello Team 2020!")
+}
+
+exports.storeHistory = (req, res, next) =>{
+	user = req.body.username;
+	book = req.body.isbn;
+	let { PythonShell } = require('python-shell')
+	console.log("Hello 1");
+
+	console.log("Hello 2");
+
+	let options = {
+		mode: 'text',
+		pythonPath: process.env.PYTHON_EXE_LOCATION,
+		pythonOptions: ['-u'], // get print results in real-time
+		scriptPath: process.env.PYTHON_FILE_LOCATION,
+		args:[user, book]
+		// args: ['value1', 'value2', 'value3']
+	};
+	console.log(options.pythonPath);
+	console.log(options.scriptPath);
+	PythonShell.run('storehistory.py', options, function (err, results) {
+		if (err) throw err;
+		// results is an array consisting of messages collected during execution
+		console.log('results: %j', results);
+		return res.status(200).send(results);
+	});
+	return;
+
+
 }
 
 exports.validateUsername = (req, res, next) => {
@@ -289,19 +319,28 @@ exports.fetchImage = (req, res, next) => {
 
 exports.recommendBooks = (req, res, next) => {
 	let { PythonShell } = require('python-shell')
+	console.log("Hello 1");
 
+	console.log("Hello 2");
+
+	let username = req.body.user;
+	console.log(username);
 	let options = {
 		mode: 'text',
 		pythonPath: process.env.PYTHON_EXE_LOCATION,
 		pythonOptions: ['-u'], // get print results in real-time
 		scriptPath: process.env.PYTHON_FILE_LOCATION,
+		args:username
 		// args: ['value1', 'value2', 'value3']
 	};
-
+	console.log(options.pythonPath);
+	console.log(options.scriptPath);
 	PythonShell.run('Recommend_api.py', options, function (err, results) {
 		if (err) throw err;
 		// results is an array consisting of messages collected during execution
 		console.log('results: %j', results);
+		
+
 		return res.status(200).send(results);
 	});
 	return;
@@ -336,43 +375,6 @@ exports.fetchDetails = (req,res,next) => {
 	});
 	return;
 } */
-
-/*
-	Okay, so I'll explain the issue here.
-	Amazon API - Associate API doesn't help. (it's just one store)
-	GoodRead API - Has throttle limit ((per second limit) so can't use AJAX.
-	Each webpage will need to be opened in a separate
-	"headless" browser. And we need to look at each of the
-	HTML of each of these separate pages. This takes a lot of time.
-	A lot of these websites like Flipkart has "randomised" class names,
-	and no IDs so it's really hard to scrape through.
-	So Varun and I decided to instead directly scrape through
-	IndiaBookStore.Net because it does all the work for us.
-	It fetches results from all major book stores for us.
-	So if we can somehow scrape through the details as well as
-	different book prices, our problem is solved with just one API.
-	See, it was easy to scrape, but now literally every webpage
-	has dynamic JS loads. It's hard without a headless browser.
-	And the code below is just for ONE. Imagine if we do for 5 book stores. Lol.
-	Bro, Varun and I have already seen apis, Rediff API, Google Books,
-	GoodReads, OpenLibrary, ISBNDB, etc etc. It's of no use.
-	Throttling/paid/vague. All of them.
-*/
-// So what's the plan now? So what's the issue with that? - Need a little help
-// because my brain is kinda fried right now -.- Wasted too much time for right APIs
-// If you can scrape out for me...
-// Instead of opening a new window can't we fetch details of a book and send to front end?
-/* 
-	> So Varun and I decided to instead directly scrape through
-	IndiaBookStore.Net because it does all the work for us. (Does it have fixed classes and ids in the html page? yes)
-
-	> See the commented out code above. Run that. It does that only.
-	Fetches book meta data from openLibrary. What went wrong there?
-	1. It still doesn't solve the manpower needed to write code for all stores.
-	2. Each PROPER book title gives 40+ ISBNS. (different language, types, formats, places)
-	3. So you're kinda in this loop of just fetching the right data. 
-	ohk. gimme some time to catch up with you > yes please, I'll go eat haven't eaten ugh
-	*/
 
 exports.fetchDetails = (req, res, next) => {
 	let search_query = req.query.q;
