@@ -414,7 +414,7 @@ exports.fetchDetails = (req, res, next) => {
 			// let div = $('#block-multipurpose-business-theme-content', html).html();
 			// console.log(div);
 			$ = $.load(page);
-			$('#block-multipurpose-business-theme-content').children("div").first().children("div .book-content").each(function () {
+			$('#block-multipurpose-business-theme-content').children("div").first().children("div .book-content").slice(0, 5).each(function () {
 				// console.log($(this).html());
 				let book = {};
 				// book.image_url = new URL ($(this).find("object.img-responsive").prop("src"), "https://isbndb.com/").toString();
@@ -434,22 +434,22 @@ exports.fetchDetails = (req, res, next) => {
 
 						case 2:
 							book.isbn = $(this).children("strong").remove().end().text().trim();
-							// console.log($(this).children("strong").remove().end().text().trim());
+							console.log($(this).children("strong").remove().end().text().trim());
 							break;
 
 						case 3:
 							book.publisher = $(this).children("strong").remove().end().text().trim();
-							// console.log($(this).children("strong").remove().end().text().trim());
+							console.log($(this).children("strong").remove().end().text().trim());
 							break;
 
 						case 4:
 							book.publish_date = $(this).children("strong").remove().end().text().trim();
-							// console.log($(this).children("strong").remove().end().text().trim());
+							console.log($(this).children("strong").remove().end().text().trim());
 							break;
 
 						case 5:
 							book.bind = $(this).children("strong").remove().end().text().trim();
-							// console.log($(this).children("strong").remove().end().text().trim());
+							console.log($(this).children("strong").remove().end().text().trim());
 							break;
 
 						default:
