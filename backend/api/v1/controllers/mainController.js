@@ -544,20 +544,9 @@ exports.fetchUserBookDetails = async (req, res, next) => {
 					console.log("Searching for ISBN:", element);
 					
 					let search_query = element;
-					let api_url = new URL("/search/books/" + search_query, "https://isbndb.com/");
+					let api_url = new URL("/book/" + search_query, "https://isbndb.com/")
 
 					console.log("API URL:", api_url.toString());
-					// request(api_url.toString())
-					// .then(function (html) {
-					// 	const $ = cheerio.load(html)
-					// 	//console.log(html)
-					// 	console.log($('.bookDetailsLink').attr('a'))
-					// 	return res.status(200).send(books)
-					// })
-					// .catch(function (err) {
-					// 	return res.status(500).send({"error": "Internal error"});
-					// });
-					
 
 					const options = {
 						method: "GET",
@@ -574,46 +563,9 @@ exports.fetchUserBookDetails = async (req, res, next) => {
 				.then(function(results) {
 					results.forEach(result => {
 						$ = $.load(result);
-						$('#block-multipurpose-business-theme-content').children("div").first().children("div .book-content").each(function () {
-							let book = {};
-							book.image_url = $(this).find("object.img-responsive").prop("data");
-							let data = $(this).find("dl > dt").each(function (index) {
-								switch (index) {
-									case 0:
-										book.authors = $(this).children("strong").remove().end().text().trim();
-										// console.log($(this).children("strong").remove().end().text().trim());
-										break;
-									case 1:
-										book.title = $(this).children("strong").remove().end().text().trim();
-										// console.log($(this).children("strong").remove().end().text().trim());
-										break;
-
-									case 2:
-										book.isbn = $(this).children("strong").remove().end().text().trim();
-										// console.log($(this).children("strong").remove().end().text().trim());
-										break;
-
-									case 3:
-										book.publisher = $(this).children("strong").remove().end().text().trim();
-										// console.log($(this).children("strong").remove().end().text().trim());
-										break;
-
-									case 4:
-										book.publish_date = $(this).children("strong").remove().end().text().trim();
-										// console.log($(this).children("strong").remove().end().text().trim());
-										break;
-
-									case 5:
-										book.bind = $(this).children("strong").remove().end().text().trim();
-										// console.log($(this).children("strong").remove().end().text().trim());
-										break;
-
-									default:
-										break;
-								}
-							});
-							books.push(book);
-						});
+						tbody = $('#block-multipurpose-business-theme-content').children("div").first().children("div:nth-child(2)").html()
+						console.log(tbody);
+						books.push(tbody);
 					});
 					res.status(200).send(books);
 				}.bind({books: books}))
