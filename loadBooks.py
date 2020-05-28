@@ -51,7 +51,7 @@ def addBooks(start,end):
 
 def batchInsertof500(start_at=0):
     errors = []
-    for i in range(a, 11000, 500):
+    for i in range(start_at, 11000, 500):
         try:
             addBooks(i, i+500)
         except Exception as e:
