@@ -169,7 +169,7 @@ exports.fetchBook = (req, res, next) => {
 	request format : {imageType:book,value:isbn}
 	- supported file formats: png,jpg,jpeg
 */
-/*
+
 exports.storeImage = (req, res, next) => {
 	var tempPath = req.file.path;
 	var targetPath = ""
@@ -237,7 +237,7 @@ exports.storeImage = (req, res, next) => {
 		return res.status(415).send({ "message": "Invalid file format..." })
 	}
 	return;
-}*/
+}
 
 /*
 	- use username (as it is unique for a user) for loading user profile picture
@@ -246,7 +246,7 @@ exports.storeImage = (req, res, next) => {
 	request format : {imageType:book,value:isbn}
 	- supported file formats: png,jpg,jpeg
 */
-/*
+
 exports.deleteImage = (req, res, next) => {
 	var targetPath = ""
 	console.log("imageType:", req.body.imageType);
@@ -288,7 +288,7 @@ exports.deleteImage = (req, res, next) => {
 
 	// return res.status(415).send({"message":"Invalid file format..."})
 	return;
-}*/
+}
 
 /*
 	- use username for loading user profile picture
@@ -297,7 +297,7 @@ exports.deleteImage = (req, res, next) => {
 	request format : {imageType:book,value:isbn}
 	- supported file formats: png,jpg,jpeg
 */
-/*
+
 exports.fetchImage = (req, res, next) => {
 	var targetPath = ""
 	image.findOne({ imageType: req.body.imageType, value: req.body.value }, (err, imageData) => {
@@ -323,7 +323,7 @@ exports.fetchImage = (req, res, next) => {
 		})
 	})
 }
-*/
+
 exports.recommendBooks = (req, res, next) => {
 	let { PythonShell } = require('python-shell')
 	console.log("Hello 1");
@@ -353,37 +353,8 @@ exports.recommendBooks = (req, res, next) => {
 	return;
 }
 
-/*
-exports.fetchDetails = (req,res,next) => {
-	let search_type = (req.query.type === undefined)?"q":req.query.type;
-	let search_query = req.query.q;
 
-	let api_url = new URL("http://openlibrary.org/search.json")
-	api_url.searchParams.append(search_type,search_query)
-	api_url.searchParams.append("lang","eng")
-	console.log("api_url:", api_url.toString())
-	
-	const options = {
-		method: "GET",
-		uri: api_url.toString(),
-		headers: {},
-		body: {},
-		json: true
-	}
-
-	request(options).then(response => {
-		if (response.length === 0) return res.status(400).send("400: Invalid")
-		else {
-			return res.status(200).send(response);
-		}
-	}).catch(err => {
-		console.error("API Call error:", err);
-		return res.status(500).send(err)
-	});
-	return;
-} */
-
-exports.fetchDetails = (req, res, next) => {
+exports.fetchDetailsOLD = (req, res, next) => {
 	let search_query = req.query.q;
 	let api_url = new URL("/search/books/" + search_query, "https://isbndb.com/")
 
@@ -492,6 +463,101 @@ exports.fetchDetails = (req, res, next) => {
 	// 	});
 
 	return;
+}
+
+/*
+	THIS WAS THE ACTUAL FUNCTION
+	exports.fetchDetails = (req, res, next) => {
+		let search_query = req.query.q;
+		let api_url = new URL("/search?q=" + search_query, "https://google.com/")
+
+		console.log("API URL:", api_url.toString());
+		// request(api_url.toString())
+		// .then(function (html) {
+		// 	const $ = cheerio.load(html)
+		// 	//console.log(html)
+		// 	console.log($('.bookDetailsLink').attr('a'))
+		// 	return res.status(200).send(books)
+		// })
+		// .catch(function (err) {
+		//     return res.status(500).send({"error": "Internal error"});
+		// });
+		
+
+		const options = {
+			method: "GET",
+			uri: api_url,
+			headers: {},
+			body: {},
+			json: true
+		}
+		
+		request(options)
+			.then(function (page) {
+				console.log("Hello");
+				let books = [];
+				console.log("Goodbye");
+				// let div = $('#block-multipurpose-business-theme-content', html).html();
+				console.log("AAAAAAAAAAAAAA");
+				$ = $.load(page);
+				$('#results').slice(0, 5).each(function () {
+					// console.log($(this).html());
+					let book = {};
+					// book.image_url = new URL ($(this).find("object.img-responsive").prop("src"), "https://isbndb.com/").toString();
+					book.image_url = $(this).find("img").prop("src");
+					book.price = $(this).find(".price").text();
+					book.title = $(this).find("img").prop("alt");
+					// console.log("TITLE:", $(this).find("h2.search-result-title > a").html());
+					books.push(book);
+					// console.log("======");
+				});
+				return res.status(200).send(books);
+			})
+			.catch(function (err) {
+				return res.status(500).send({ error: err });
+			});
+
+		// puppeteer
+		// 	.launch()
+		// 	.then(function (browser) {
+		// 		return browser.newPage();
+		// 	})
+		// 	.then(function (page) {
+		// 		return page.goto(api_url.toString()).then(function () {
+		// 			return page.content();
+		// 		});
+		// 	})
+		// 	.then(function (html) {
+		// 		let books = [];
+		// 		$('#block-multipurpose-business-theme-content').children("div").first().children("div .book-content").each(function () {
+		// 			console.log($(this));
+		// 			let book = {};
+		// 			book["image_url"] = $(this).find("img .img-responsive").attr("src");
+		// 			books.push(book);
+		// 		});
+		// 		return res.status(200).send(books);
+		// 	})
+		// 	.catch(function (err) {
+		// 		return res.status(500).send({ error: err });
+		// 	});
+
+		return;
+	}
+*/
+
+exports.fetchDetails = (req, res, next) => {
+	let search_query = req.query.q;
+	return book.find({ 'title': new RegExp(search_query, 'i') }, (err, books) => {
+		if (err) {
+			console.log("Error :,\n", err);
+			return res.status(500).send({ error: "Interal Error..." })
+		}
+		else if (books.length == 0) {
+			console.log("Error : Book title not found");
+			return res.status(404).send({ error: "Not found." })
+		}
+		return res.status(200).send(books);
+	});
 }
 
 exports.fetchMoreDetails = (req, res, next) => {
