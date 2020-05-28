@@ -149,19 +149,6 @@ exports.storeBook = (req, res, next) => {
 	return res.status(200).send({})
 }
 
-exports.fetchBook = (req, res, next) => {
-	book.find(req.query, (err, books) => {
-		if (err) {
-			console.log("Error :,\n", err);
-			return res.status(500).send({ error: "Interal Error..." })
-		}
-		if (books.length == 0) {
-			console.log("No Content");
-			return res.status(404).send({ message: "No Content..." })
-		}
-		return res.status(200).send(books)
-	})
-}
 /*
 	- use username (as it is unique for a user) for loading user profile picture
 	request format : {imageType:user,value:username}
@@ -353,199 +340,7 @@ exports.recommendBooks = (req, res, next) => {
 	return;
 }
 
-
-exports.fetchDetailsOLD = (req, res, next) => {
-	let search_query = req.query.q;
-	let api_url = new URL("/search/books/" + search_query, "https://isbndb.com/")
-
-	console.log("API URL:", api_url.toString());
-	// request(api_url.toString())
-    // .then(function (html) {
-	// 	const $ = cheerio.load(html)
-	// 	//console.log(html)
-	// 	console.log($('.bookDetailsLink').attr('a'))
-	// 	return res.status(200).send(books)
-    // })
-    // .catch(function (err) {
-    //     return res.status(500).send({"error": "Internal error"});
-    // });
-	
-
-	const options = {
-		method: "GET",
-		uri: api_url.toString(),
-		headers: {},
-		body: {},
-		json: true
-	}
-
-	request(options)
-		.then(function (page) {
-			let books = [];
-			// let div = $('#block-multipurpose-business-theme-content', html).html();
-			// console.log(div);
-			$ = $.load(page);
-			$('#block-multipurpose-business-theme-content').children("div").first().children("div .book-content").slice(0, 5).each(function () {
-				// console.log($(this).html());
-				let book = {};
-				// book.image_url = new URL ($(this).find("object.img-responsive").prop("src"), "https://isbndb.com/").toString();
-				book.image_url = $(this).find("object.img-responsive").prop("data");
-				// console.log("IMAGE:", $(this).find("object.img-responsive").first().prop("src"));
-				// book.title = $(this).find("h2.search-result-title > a").html();
-				let data = $(this).find("dl > dt").each(function (index) {
-					switch (index) {
-						case 0:
-							book.authors = $(this).children("strong").remove().end().text().trim();
-							// console.log($(this).children("strong").remove().end().text().trim());
-							break;
-						case 1:
-							book.title = $(this).children("strong").remove().end().text().trim();
-							// console.log($(this).children("strong").remove().end().text().trim());
-							break;
-
-						case 2:
-							book.isbn = $(this).children("strong").remove().end().text().trim();
-							console.log($(this).children("strong").remove().end().text().trim());
-							break;
-
-						case 3:
-							book.publisher = $(this).children("strong").remove().end().text().trim();
-							console.log($(this).children("strong").remove().end().text().trim());
-							break;
-
-						case 4:
-							book.publish_date = $(this).children("strong").remove().end().text().trim();
-							console.log($(this).children("strong").remove().end().text().trim());
-							break;
-
-						case 5:
-							book.bind = $(this).children("strong").remove().end().text().trim();
-							console.log($(this).children("strong").remove().end().text().trim());
-							break;
-
-						default:
-							break;
-					}
-					// console.log("===========");
-				});
-				// console.log("TITLE:", $(this).find("h2.search-result-title > a").html());
-				books.push(book);
-				// console.log("======");
-			});
-			return res.status(200).send(books);
-		})
-		.catch(function (err) {
-			return res.status(500).send({ error: err });
-		});
-
-	// puppeteer
-	// 	.launch()
-	// 	.then(function (browser) {
-	// 		return browser.newPage();
-	// 	})
-	// 	.then(function (page) {
-	// 		return page.goto(api_url.toString()).then(function () {
-	// 			return page.content();
-	// 		});
-	// 	})
-	// 	.then(function (html) {
-	// 		let books = [];
-	// 		$('#block-multipurpose-business-theme-content').children("div").first().children("div .book-content").each(function () {
-	// 			console.log($(this));
-	// 			let book = {};
-	// 			book["image_url"] = $(this).find("img .img-responsive").attr("src");
-	// 			books.push(book);
-	// 		});
-	// 		return res.status(200).send(books);
-	// 	})
-	// 	.catch(function (err) {
-	// 		return res.status(500).send({ error: err });
-	// 	});
-
-	return;
-}
-
-/*
-	THIS WAS THE ACTUAL FUNCTION
-	exports.fetchDetails = (req, res, next) => {
-		let search_query = req.query.q;
-		let api_url = new URL("/search?q=" + search_query, "https://google.com/")
-
-		console.log("API URL:", api_url.toString());
-		// request(api_url.toString())
-		// .then(function (html) {
-		// 	const $ = cheerio.load(html)
-		// 	//console.log(html)
-		// 	console.log($('.bookDetailsLink').attr('a'))
-		// 	return res.status(200).send(books)
-		// })
-		// .catch(function (err) {
-		//     return res.status(500).send({"error": "Internal error"});
-		// });
-		
-
-		const options = {
-			method: "GET",
-			uri: api_url,
-			headers: {},
-			body: {},
-			json: true
-		}
-		
-		request(options)
-			.then(function (page) {
-				console.log("Hello");
-				let books = [];
-				console.log("Goodbye");
-				// let div = $('#block-multipurpose-business-theme-content', html).html();
-				console.log("AAAAAAAAAAAAAA");
-				$ = $.load(page);
-				$('#results').slice(0, 5).each(function () {
-					// console.log($(this).html());
-					let book = {};
-					// book.image_url = new URL ($(this).find("object.img-responsive").prop("src"), "https://isbndb.com/").toString();
-					book.image_url = $(this).find("img").prop("src");
-					book.price = $(this).find(".price").text();
-					book.title = $(this).find("img").prop("alt");
-					// console.log("TITLE:", $(this).find("h2.search-result-title > a").html());
-					books.push(book);
-					// console.log("======");
-				});
-				return res.status(200).send(books);
-			})
-			.catch(function (err) {
-				return res.status(500).send({ error: err });
-			});
-
-		// puppeteer
-		// 	.launch()
-		// 	.then(function (browser) {
-		// 		return browser.newPage();
-		// 	})
-		// 	.then(function (page) {
-		// 		return page.goto(api_url.toString()).then(function () {
-		// 			return page.content();
-		// 		});
-		// 	})
-		// 	.then(function (html) {
-		// 		let books = [];
-		// 		$('#block-multipurpose-business-theme-content').children("div").first().children("div .book-content").each(function () {
-		// 			console.log($(this));
-		// 			let book = {};
-		// 			book["image_url"] = $(this).find("img .img-responsive").attr("src");
-		// 			books.push(book);
-		// 		});
-		// 		return res.status(200).send(books);
-		// 	})
-		// 	.catch(function (err) {
-		// 		return res.status(500).send({ error: err });
-		// 	});
-
-		return;
-	}
-*/
-
-exports.fetchDetails = (req, res, next) => {
+exports.searchBooks = (req, res, next) => {
 	let search_query = req.query.q;
 	return book.find({ 'title': new RegExp(search_query, 'i') }, (err, books) => {
 		if (err) {
@@ -560,43 +355,28 @@ exports.fetchDetails = (req, res, next) => {
 	});
 }
 
-exports.fetchMoreDetails = (req, res, next) => {
-	let search_query = req.query.q;
-	let api_url = new URL("/book/" + search_query, "https://isbndb.com/")
-
-	console.log("API URL:", api_url.toString());
-
-	const options = {
-		method: "GET",
-		uri: api_url.toString(),
-		headers: {},
-		body: {},
-		json: true
-	}
-
-	request(options)
-		.then(function (page) {
-			let tbody = "";
-			$ = $.load(page);
-			tbody = $('#block-multipurpose-business-theme-content').children("div").first().children("div:nth-child(2)").html()
-			// console.log($(this).html());
-			// tbody = $(this).html();
-			console.log(tbody)
-			return res.status(200).send(tbody);
-		})
-		.catch(function (err) {
-			return res.status(500).send({ error: err });
-		});
-	return;
+exports.fetchBook = (req, res, next) => {
+	let search_query = req.query.id;
+	return book.findOne({ '_id': search_query }, (err, returned_book) => {
+		if (err) {
+			console.log("Error :,\n", err);
+			return res.status(500).send({ error: "Interal Error..." })
+		}
+		if (returned_book.length == 0) {
+			console.log("No Content");
+			return res.status(404).send({ message: "No Content..." })
+		}
+		return res.status(200).send(returned_book);
+	});
 }
 
-exports.fetchUserBookDetails = async (req, res, next) => {
+exports.fetchUserBooks = async (req, res, next) => {
 	let username = req.params.username;
 	let books = [];
-	
+
 	fs.readFile(history_csv, (err, data) => {
 		if (err) {
-			console.log("Error Failed To Read Image.\n", err);
+			console.log("Error Failed To Read File.\n", err);
 			return res.status(500).send({ error: "Interal Error..." })
 		}
 
@@ -607,37 +387,20 @@ exports.fetchUserBookDetails = async (req, res, next) => {
 				history.shift();
 				let promises = [];
 				history.forEach(element => {
-					console.log("Searching for ISBN:", element);
-					
-					let search_query = element;
-					let api_url = new URL("/book/" + search_query, "https://isbndb.com/")
-
-					console.log("API URL:", api_url.toString());
-
-					const options = {
-						method: "GET",
-						uri: api_url.toString(),
-						headers: {},
-						body: {},
-						json: true
-					}
-
-					promises.push(request(options)); 
+					console.log("Searching for ISBN13:", element);
+					promises.push(book.findOne({"isbn13": element}));
 				});
-				
+
 				Promise.all(promises)
-				.then(function(results) {
-					results.forEach(result => {
-						$ = $.load(result);
-						tbody = $('#block-multipurpose-business-theme-content').children("div").first().children("div:nth-child(2)").html()
-						console.log(tbody);
-						books.push(tbody);
+					.then(function (results) {
+						results.forEach(result => {
+							books.push(result);
+						});
+						res.status(200).send(books);
+					}.bind({ books: books }))
+					.catch(function (err) {
+						res.status(500).send({ error: err });
 					});
-					res.status(200).send(books);
-				}.bind({books: books}))
-				.catch(function (err) {
-					res.status(500).send({ error: err });
-				});
 			}
 		});
 	})
