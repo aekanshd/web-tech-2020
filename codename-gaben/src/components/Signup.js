@@ -36,9 +36,16 @@ class Signup extends Component {
 			},
 			false
 		);
-		if (file) {
+		if (document.getElementById('profile').value != '') {
 			reader.readAsDataURL(file);
-			// console.log(reader.result);
+		} else {
+			axios
+				.put('http://localhost:62020/api/v1/user', signup)
+				.then((res) => {
+					console.log(res);
+					// console.log(res.data);
+					window.location = '/login'; // This line of code will redirect you once the submission is succeed
+				});
 		}
 	};
 
@@ -79,6 +86,7 @@ class Signup extends Component {
 									name='username'
 									type='text'
 									required
+									pattern='[a-zA-Z0-9_]{8,25}'
 									className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5'
 									placeholder='Username'
 									onChange={(event) => {
@@ -94,6 +102,7 @@ class Signup extends Component {
 									name='fullname'
 									type='text'
 									required
+									pattern="[\w .'-]+"
 									className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5'
 									placeholder='Full Name'
 									onChange={(event) => {
@@ -124,6 +133,7 @@ class Signup extends Component {
 									name='password'
 									type='password'
 									required
+									pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
 									className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5'
 									placeholder='Password'
 									onChange={(event) => {
@@ -134,7 +144,9 @@ class Signup extends Component {
 								/>
 							</div>
 						</div>
+						<br />
 						<input
+							id='profile'
 							type='file'
 							onChange={(event) => {
 								this.setState({ image: event.target.files[0] });

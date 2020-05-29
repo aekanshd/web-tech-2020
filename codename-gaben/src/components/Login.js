@@ -67,6 +67,7 @@ class Login extends Component {
 									name='username'
 									type='text'
 									required
+									pattern='[a-zA-Z0-9_]{8,25}'
 									className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5'
 									placeholder='Username'
 									onChange={(event) => {
@@ -82,6 +83,7 @@ class Login extends Component {
 									name='password'
 									type='password'
 									required
+									pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'
 									className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5'
 									placeholder='Password'
 									onChange={(event) => {
