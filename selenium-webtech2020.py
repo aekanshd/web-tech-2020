@@ -8,10 +8,18 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 import os
+from dotenv import load_dotenv
 
-# driver = webdriver.Chrome()
-driver = webdriver.Firefox()
-
+load_dotenv(dotenv_path=os.path.dirname(os.path.abspath(__file__))+"/backend/.env", verbose=True)
+base_dir = os.getenv("PYTHON_FILE_LOCATION")
+driver_file_location = os.getenv("WEBDRIVER_FILE_LOCATION")
+browser = os.getenv("CHROME_OR_FIREFOX")
+if browser == "CHROME":
+    driver = webdriver.Chrome(executable_path=driver_file_location)
+elif browser == "FIREFOX":
+    driver = webdriver.Firefox(executable_path=driver_file_location)
+else:
+    raise Exception("Invalid Driver. Values supported: CHROME,FIREFOX")
 '''
     Set the configuration here.
     debug = True or False decided whether 
@@ -101,7 +109,7 @@ if 3 in tests_to_run:
     full_name_box.send_keys("Aekansh Dixit")
     email_box.send_keys("aekanshpesu@gmail.com")
     password_box.send_keys("MyPassword@123")
-    dp_button.send_keys(os.getcwd()+"\AekanshDixit.jpg")
+    dp_button.send_keys(os.path.join(os.getcwd(),"AekanshDixit.jpg"))
     print("Submitting form...") if debug else None
     submit_button.click()
     print("Waiting for 5 secs to be sure of the API...") if debug else None

@@ -14,6 +14,8 @@ var dataArray = [];
 user = model.user;
 book = model.book;
 image = model.image;
+const os = process.env.OS_NAME;
+
 exports.home = (req, res, next) => {
 	res.send('Hello Team 2020!');
 };
@@ -406,8 +408,12 @@ exports.fetchUserBooks = async (req, res, next) => {
 			console.log('Error Failed To Read File.\n', err);
 			return res.status(500).send({ error: 'Interal Error...' });
 		}
-
-		let users = data.toString().split('\r\n');
+		let users;
+		if(os == "WINDOWS") {
+			users = data.toString().split('\r\n');
+		} else {
+			users = data.toString().split('\n')
+		}
 		let foundUser = false;
 		users.forEach((element) => {
 			let history = element.split(',');
