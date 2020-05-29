@@ -17,6 +17,7 @@ class Detail extends Component {
 				this.setState({ book });
 				console.log(book);
 			});
+		// if(localStorage.getItem("loggedin"))
 		// axios
 		// 	.get(
 		// 		`http://localhost:62020/api/v1/storeHistory?username=${localStorage.getItem(
@@ -124,6 +125,54 @@ class Detail extends Component {
 										</dt>
 										<dd className='mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2'>
 											{this.state.book.text_reviews_count}
+										</dd>
+									</div>
+									<div className='bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
+										<dt className='text-sm leading-5 font-medium text-gray-500'>
+											Purchase From Amazon
+										</dt>
+										<dd className='mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2'>
+											{/* <a href={`https://www.amazon.in/s?i=stripbooks&rh=p_66%3A${this.state.book.isbn13}&s=relevanceexprank&Adv-Srch-Books-Submit.x=41&Adv-Srch-Books-Submit.y=6&unfiltered=1`}>
+												<img src="https://onlineandyou.com/wp-content/uploads/2015/02/Amazon.in-logo.jpg" />
+											</a> */}
+											<a
+												href={`https://www.amazon.in/dp/${this.state.book.isbn}`}
+											>
+												<img
+													src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/175px-Amazon_logo.svg.png'
+													width='100px'
+												/>
+											</a>
+										</dd>
+									</div>
+									<div className='bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
+										<dt className='text-sm leading-5 font-medium text-gray-500'>
+											Purchase From Reddit Books
+										</dt>
+										<dd className='mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2'>
+											<a
+												href={`http://books.rediff.com/book/${this.state.book.isbn13}`}
+											>
+												<img
+													src='http://books.rediff.com/booksrediff/pix/rediff.png'
+													width='100px'
+												/>
+											</a>
+										</dd>
+									</div>
+									<div className='bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
+										<dt className='text-sm leading-5 font-medium text-gray-500'>
+											Purchase From Sapna
+										</dt>
+										<dd className='mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2'>
+											<a
+												href={`https://www.sapnaonline.com/general-search?searchkey=${this.state.book.isbn13}`}
+											>
+												<img
+													src='https://rescdn.sapnaonline.com/common/sapna/images/common_images/logo.png'
+													width='100px'
+												/>
+											</a>
 										</dd>
 									</div>
 								</dl>
