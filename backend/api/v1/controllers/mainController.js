@@ -407,10 +407,12 @@ exports.fetchUserBooks = async (req, res, next) => {
 			return res.status(500).send({ error: 'Interal Error...' });
 		}
 
-		let users = data.toString().split('\n');
+		let users = data.toString().split('\r\n');
+		let foundUser = false;
 		users.forEach((element) => {
 			let history = element.split(',');
 			if (history[0] == username) {
+				foundUser = true;
 				history.shift();
 				let promises = [];
 				history.forEach((element) => {
@@ -419,21 +421,25 @@ exports.fetchUserBooks = async (req, res, next) => {
 				});
 
 				Promise.all(promises)
-					.then(
-						function (results) {
-							results.forEach((result) => {
-								if (result) books.push(result);
-							});
-							if (books.length == 0)
-								res.status(404).send('No Books Found');
-							else res.status(200).send(books);
-						}.bind({ books: books })
-					)
-					.catch(function (err) {
-						res.status(500).send({ error: err });
-					});
+				.then(
+					function (results) {
+						results.forEach((result) => {
+							console.log("Result:", result);
+							if (result) books.push(result);
+						});
+						if (books.length == 0)
+							res.status(404).send('No Books Found');
+						else res.status(200).send(books);
+					}.bind({ books: books })
+				)
+				.catch(function (err) {
+					res.status(500).send({ error: err });
+				});
 			}
 		});
+		if(!foundUser) {
+			res.status(404).send({ error: "You haven't opened a book yet..." });
+		}
 	});
 
 	return;

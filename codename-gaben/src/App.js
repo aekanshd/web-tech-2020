@@ -32,7 +32,7 @@ class App extends Component {
 
 	get renderBooks() {
 		let books = (
-			<h1 className='mt-6 mb-6 text-center leading-9 text-3xl text-gray-500'>
+			<h1 className='mt-6 mb-6 text-center leading-9 text-3xl text-gray-600'>
 				Try searching for a book...
 			</h1>
 		);
@@ -66,7 +66,7 @@ class App extends Component {
 							</div>
 						</div>
 						{this.state.loading ? (
-							<h1 className='mt-6 mb-6 text-center leading-9 text-3xl text-gray-500'>
+							<h1 className='mt-6 mb-6 text-center leading-9 text-3xl text-gray-600'>
 								Loading...
 							</h1>
 						) : (

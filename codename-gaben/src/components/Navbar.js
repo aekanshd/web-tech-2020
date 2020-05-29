@@ -65,6 +65,7 @@ class Navbar extends Component {
 						</div>
 						<div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
 							<button
+								aria-label='User Notifications'
 								className='p-1 border-2 border-transparent text-gray-400 rounded-full hover:text-white focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out'
 								onMouseEnter={() => {
 									let menu = document.querySelector(
