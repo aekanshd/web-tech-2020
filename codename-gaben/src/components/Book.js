@@ -4,7 +4,7 @@ import { truncStr } from '../utils';
 import { Link } from 'react-router-dom';
 
 const Book = (props) => {
-	const { title, isbn, isbn13 } = props.item;
+	const { title, average_rating, isbn13 } = props.item;
 	// let image_url = `http://covers.openlibrary.org/b/isbn/${isbn13}-M.jpg`
 	let image_url = `https://pictures.abebooks.com/isbn/${isbn13}.jpg`;
 	return (
@@ -16,7 +16,7 @@ const Book = (props) => {
 				}}
 			>
 				<div className={classes.VoteContainer}>
-					<span className={classes.Vote}>{isbn}</span>
+					<span className={classes.Vote}>{average_rating + '★'}</span>
 				</div>
 
 				<div className={classes.Bottom + ' bg-gray-800'}>

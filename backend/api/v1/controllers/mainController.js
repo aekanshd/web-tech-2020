@@ -20,14 +20,14 @@ exports.home = (req, res, next) => {
 
 exports.storeHistory = (req, res, next) => {
 	user = req.query.username;
-	book = req.query.isbn;
+	isbn = req.query.isbn;
 	let { PythonShell } = require('python-shell');
 	let options = {
 		mode: 'text',
 		pythonPath: process.env.PYTHON_EXE_LOCATION,
 		pythonOptions: ['-u'], // get print results in real-time
 		scriptPath: process.env.PYTHON_FILE_LOCATION,
-		args: [user, book],
+		args: [user, isbn],
 		// args: ['value1', 'value2', 'value3']
 	};
 	console.log(options.pythonPath);
@@ -361,8 +361,8 @@ exports.recommendBooks = (req, res, next) => {
 		if (err) throw err;
 		// results is an array consisting of messages collected during execution
 		console.log('results: %j', results);
-
-		return res.status(200).send(results);
+		const json_result = JSON.parse(results)
+		return res.status(200).send(json_result);
 	});
 	return;
 };

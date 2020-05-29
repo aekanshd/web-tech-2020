@@ -17,14 +17,14 @@ class Detail extends Component {
 				this.setState({ book });
 				console.log(book);
 			});
-		// if(localStorage.getItem("loggedin"))
-		// axios
-		// 	.get(
-		// 		`http://localhost:62020/api/v1/storeHistory?username=${localStorage.getItem(
-		// 			'username'
-		// 		)}&isbn=${this.state.book.isbn13}`
-		// 	)
-		// 	.then(() => console.log('History Stored.'));
+		if(localStorage.getItem("loggedin"))
+		axios
+			.get(
+				`http://localhost:62020/api/v1/storeHistory?username=${localStorage.getItem(
+					'username'
+				)}&isbn=${this.state.book.isbn13}`
+			)
+			.then(() => console.log('History Stored.'));
 	}
 
 	render() {
