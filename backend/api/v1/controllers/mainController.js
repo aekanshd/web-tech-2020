@@ -51,8 +51,8 @@ exports.validateUsername = (req, res, next) => {
 			console.log('Error : Username Already Used');
 			return res.status(400).send({ error: 'Username Already Used..' });
 		}
+		return res.status(200).send({});
 	});
-	return res.status(200).send({});
 };
 
 exports.createUser = (req, res, next) => {

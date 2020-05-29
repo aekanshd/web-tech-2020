@@ -36,7 +36,7 @@ class Signup extends Component {
 			},
 			false
 		);
-		if (document.getElementById('profile').value != '') {
+		if (document.getElementById('profile').value !== '') {
 			reader.readAsDataURL(file);
 		} else {
 			axios
@@ -93,6 +93,21 @@ class Signup extends Component {
 										this.setState({
 											username: event.target.value,
 										});
+										axios
+											.post(
+												'http://localhost:62020/api/v1/validUserName',
+												{ username: event.target.value }
+											)
+											.then((res) => {
+												document.getElementsByName('username')[0].setCustomValidity(
+													''
+												);
+											})
+											.catch((err) => {
+												document.getElementsByName('username')[0].setCustomValidity(
+													'Username Already Taken'
+												);
+											});
 									}}
 								/>
 							</div>
@@ -165,9 +180,9 @@ class Signup extends Component {
 										viewBox='0 0 20 20'
 									>
 										<path
-											fill-rule='evenodd'
+											fillRule='evenodd'
 											d='M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z'
-											clip-rule='evenodd'
+											clipRule='evenodd'
 										/>
 									</svg>
 								</span>

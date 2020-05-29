@@ -34,6 +34,7 @@ class Detail extends Component {
 					<img
 						className='max-h-4xl mx-auto mb-8'
 						src={`http://covers.openlibrary.org/b/isbn/${this.state.book.isbn13}-M.jpg`}
+						alt='Book Cover'
 					/>
 					<div className='max-w-4xl mx-auto'>
 						<div className='bg-white shadow overflow-hidden sm:rounded-lg'>
@@ -141,6 +142,7 @@ class Detail extends Component {
 												<img
 													src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/175px-Amazon_logo.svg.png'
 													width='100px'
+													alt='Go to Amazon'
 												/>
 											</a>
 										</dd>
@@ -156,6 +158,7 @@ class Detail extends Component {
 												<img
 													src='http://books.rediff.com/booksrediff/pix/rediff.png'
 													width='100px'
+													alt='Go to Reddit Books'
 												/>
 											</a>
 										</dd>
@@ -171,6 +174,7 @@ class Detail extends Component {
 												<img
 													src='https://rescdn.sapnaonline.com/common/sapna/images/common_images/logo.png'
 													width='100px'
+													alt='Go to Sapna'
 												/>
 											</a>
 										</dd>

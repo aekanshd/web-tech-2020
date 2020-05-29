@@ -1,4 +1,4 @@
-const app = require('E:\\Documents\\PESU\\6th Semester\\Web Technologies 2 Lab\\Project\\web-tech-2020-master\\backend\\api\\v1\\controllers\\mainController');
+const app = require('../api/v1/controllers/mainController');
 const chai = require('chai');
 const chaiHttp = require('chai-Http');
 
@@ -40,7 +40,7 @@ describe('Server', () => {
 
 	it('Runs Recommendation Algorithm', (done) => {
 		chai.request('localhost:62020')
-			.post('/api/v1/recommend')
+			.get('/api/v1/recommend')
 			.send({ user: 'user2' })
 			.end((err, res) => {
 				expect(res).to.have.status(200);

@@ -100,7 +100,7 @@ class Navbar extends Component {
 									{'No New Notifications'}
 								</div>
 							</div>
-							{localStorage.getItem('loggedin') == 'true' ? (
+							{localStorage.getItem('loggedin') === 'true' ? (
 								<div className='ml-3 relative'>
 									<div>
 										<button

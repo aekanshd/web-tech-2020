@@ -3,10 +3,7 @@ import ReactDOM from 'react-dom';
 import {
 	BrowserRouter as Router,
 	Route,
-	Link,
 	Redirect,
-	Switch,
-	useParams,
 } from 'react-router-dom';
 // import './index.css';
 import './styles/main.css';
@@ -24,7 +21,7 @@ function PrivateRoute({ component: Component, ...rest }) {
 		<Route
 			{...rest}
 			render={() =>
-				localStorage.getItem('loggedin') == 'true' ? (
+				localStorage.getItem('loggedin') === 'true' ? (
 					<Component />
 				) : (
 					<Redirect to={{ pathname: '/login' }} />

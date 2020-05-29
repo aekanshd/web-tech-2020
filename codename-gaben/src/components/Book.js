@@ -1,14 +1,10 @@
 import React from 'react';
-import Modal from './Modal';
 import classes from './Book.module.css';
 import { truncStr } from '../utils';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
 const Book = (props) => {
-	const { title, authors, isbn, isbn13 } = props.item;
-	let show = false;
-	let res = '';
+	const { title, isbn, isbn13 } = props.item;
 	// let image_url = `http://covers.openlibrary.org/b/isbn/${isbn13}-M.jpg`
 	let image_url = `https://pictures.abebooks.com/isbn/${isbn13}.jpg`;
 	return (

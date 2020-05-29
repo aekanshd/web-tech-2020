@@ -44,6 +44,7 @@ class About extends Component {
 											<img
 												className='rounded-lg'
 												src='https://avatars3.githubusercontent.com/u/16451006'
+												alt='VRG'
 											/>
 										</div>
 									</div>
@@ -70,6 +71,7 @@ class About extends Component {
 											<img
 												className='rounded-lg'
 												src='https://avatars2.githubusercontent.com/u/32922340'
+												alt='Ravinder'
 											/>
 										</div>
 									</div>
@@ -96,6 +98,7 @@ class About extends Component {
 											<img
 												className='rounded-lg'
 												src='https://avatars2.githubusercontent.com/u/30038178'
+												alt='Akenksh'
 											/>
 										</div>
 									</div>
@@ -122,6 +125,7 @@ class About extends Component {
 											<img
 												className='rounded-lg'
 												src='https://avatars0.githubusercontent.com/u/38471846'
+												alt='Hrishi'
 											/>
 										</div>
 									</div>

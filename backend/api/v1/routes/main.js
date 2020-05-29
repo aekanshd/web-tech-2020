@@ -15,6 +15,7 @@ module.exports = (router) => {
 	router.put('/user', mainController.createUser);
 	router.delete('/user/:username', mainController.deleteUser);
 	router.get('/user/books/:username', mainController.fetchUserBooks);
+	router.options('/validUserName', (req, res, next) => res.status(200).send({}));
 	router.post('/validUserName', mainController.validateUsername);
 
 	// router.get('/book', mainController.fetchBook)

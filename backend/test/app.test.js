@@ -28,7 +28,7 @@ describe('Server', () => {
 
 	it('Runs Recommendation Algorithm', (done) => {
 		chai.request('localhost:62020/api/v1')
-			.post('/recommend')
+			.get('/recommend')
 			.send({ user: 'user2' })
 			.end((err, res) => {
 				expect(res).to.have.status(200);
