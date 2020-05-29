@@ -41,14 +41,14 @@ class Detail extends Component {
 								<h3 className='text-lg leading-6 font-medium text-gray-900'>
 									Book Details
 								</h3>
-								<p className='mt-1 max-w-2xl text-sm leading-5 text-gray-400'>
+								<p className='mt-1 max-w-2xl text-sm leading-5 text-gray-500'>
 									ID: {this.state.book._id}
 								</p>
 							</div>
 							<div>
 								<dl>
-									<div className='bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
-										<dt className='text-sm leading-5 font-medium text-gray-500'>
+									<div className='bg-gray-100 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
+										<dt className='text-sm leading-5 font-medium text-gray-600'>
 											Title
 										</dt>
 										<dd className='mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2'>
@@ -56,15 +56,15 @@ class Detail extends Component {
 										</dd>
 									</div>
 									<div className='bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
-										<dt className='text-sm leading-5 font-medium text-gray-500'>
+										<dt className='text-sm leading-5 font-medium text-gray-600'>
 											Author/s
 										</dt>
 										<dd className='mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2'>
 											{this.state.book.authors}
 										</dd>
 									</div>
-									<div className='bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
-										<dt className='text-sm leading-5 font-medium text-gray-500'>
+									<div className='bg-gray-100 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
+										<dt className='text-sm leading-5 font-medium text-gray-600'>
 											Number of Pages
 										</dt>
 										<dd className='mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2'>
@@ -72,15 +72,15 @@ class Detail extends Component {
 										</dd>
 									</div>
 									<div className='bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
-										<dt className='text-sm leading-5 font-medium text-gray-500'>
+										<dt className='text-sm leading-5 font-medium text-gray-600'>
 											Average Rating
 										</dt>
 										<dd className='mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2'>
 											{this.state.book.average_rating}
 										</dd>
 									</div>
-									<div className='bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
-										<dt className='text-sm leading-5 font-medium text-gray-500'>
+									<div className='bg-gray-100 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
+										<dt className='text-sm leading-5 font-medium text-gray-600'>
 											ISBN
 										</dt>
 										<dd className='mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2'>
@@ -88,15 +88,15 @@ class Detail extends Component {
 										</dd>
 									</div>
 									<div className='bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
-										<dt className='text-sm leading-5 font-medium text-gray-500'>
+										<dt className='text-sm leading-5 font-medium text-gray-600'>
 											ISBN 13
 										</dt>
 										<dd className='mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2'>
 											{this.state.book.isbn13}
 										</dd>
 									</div>
-									<div className='bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
-										<dt className='text-sm leading-5 font-medium text-gray-500'>
+									<div className='bg-gray-100 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
+										<dt className='text-sm leading-5 font-medium text-gray-600'>
 											Date Published
 										</dt>
 										<dd className='mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2'>
@@ -104,15 +104,15 @@ class Detail extends Component {
 										</dd>
 									</div>
 									<div className='bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
-										<dt className='text-sm leading-5 font-medium text-gray-500'>
+										<dt className='text-sm leading-5 font-medium text-gray-600'>
 											Publisher
 										</dt>
 										<dd className='mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2'>
 											{this.state.book.publisher}
 										</dd>
 									</div>
-									<div className='bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
-										<dt className='text-sm leading-5 font-medium text-gray-500'>
+									<div className='bg-gray-100 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
+										<dt className='text-sm leading-5 font-medium text-gray-600'>
 											Number of Ratings
 										</dt>
 										<dd className='mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2'>
@@ -120,15 +120,15 @@ class Detail extends Component {
 										</dd>
 									</div>
 									<div className='bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
-										<dt className='text-sm leading-5 font-medium text-gray-500'>
+										<dt className='text-sm leading-5 font-medium text-gray-600'>
 											Number of Text Reviews
 										</dt>
 										<dd className='mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2'>
 											{this.state.book.text_reviews_count}
 										</dd>
 									</div>
-									<div className='bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
-										<dt className='text-sm leading-5 font-medium text-gray-500'>
+									<div className='bg-gray-100 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
+										<dt className='text-sm leading-5 font-medium text-gray-600'>
 											Purchase From Amazon
 										</dt>
 										<dd className='mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2'>
@@ -146,7 +146,7 @@ class Detail extends Component {
 										</dd>
 									</div>
 									<div className='bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
-										<dt className='text-sm leading-5 font-medium text-gray-500'>
+										<dt className='text-sm leading-5 font-medium text-gray-600'>
 											Purchase From Reddit Books
 										</dt>
 										<dd className='mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2'>
@@ -160,8 +160,8 @@ class Detail extends Component {
 											</a>
 										</dd>
 									</div>
-									<div className='bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
-										<dt className='text-sm leading-5 font-medium text-gray-500'>
+									<div className='bg-gray-100 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
+										<dt className='text-sm leading-5 font-medium text-gray-600'>
 											Purchase From Sapna
 										</dt>
 										<dd className='mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2'>
