@@ -24,7 +24,7 @@ else:
     raise Exception("Invalid Driver. Values supported: CHROME,FIREFOX")
 '''
     Set the configuration here.
-    debug = True or False decided whether 
+    debug = True or False decides whether 
             debug logs print or not.
     tests_to_run = Which tests to run? Mention them in order.
 '''
