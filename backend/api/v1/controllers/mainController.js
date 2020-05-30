@@ -14,7 +14,7 @@ var dataArray = [];
 user = model.user;
 book = model.book;
 image = model.image;
-const os = process.env.OS_NAME;
+const os = require('os');
 
 exports.home = (req, res, next) => {
 	res.send('Hello Team 2020!');
@@ -180,11 +180,9 @@ exports.storeImage = (req, res, next) => {
 			newImage.save((err) => {
 				if (err) {
 					console.log('Error : Failed to create record\n', err);
-					return res
-						.status(500)
-						.send({
-							error: 'Interal Error, Failed to create record...',
-						});
+					return res.status(500).send({
+						error: 'Interal Error, Failed to create record...',
+					});
 				}
 			});
 			return res.status(200).send({});
@@ -200,11 +198,9 @@ exports.storeImage = (req, res, next) => {
 			newImage.save((err) => {
 				if (err) {
 					console.log('Error : Failed to create record\n', err);
-					return res
-						.status(500)
-						.send({
-							error: 'Interal Error, Failed to create record...',
-						});
+					return res.status(500).send({
+						error: 'Interal Error, Failed to create record...',
+					});
 				}
 			});
 			return res.status(200).send({});
@@ -220,11 +216,9 @@ exports.storeImage = (req, res, next) => {
 			newImage.save((err) => {
 				if (err) {
 					console.log('Error : Failed to create record\n', err);
-					return res
-						.status(500)
-						.send({
-							error: 'Interal Error, Failed to create record...',
-						});
+					return res.status(500).send({
+						error: 'Interal Error, Failed to create record...',
+					});
 				}
 			});
 			return res.status(200).send({});
@@ -363,7 +357,7 @@ exports.recommendBooks = (req, res, next) => {
 		if (err) throw err;
 		// results is an array consisting of messages collected during execution
 		console.log('results: %j', results);
-		const json_result = JSON.parse(results)
+		const json_result = JSON.parse(results);
 		return res.status(200).send(json_result);
 	});
 	return;
@@ -409,11 +403,7 @@ exports.fetchUserBooks = async (req, res, next) => {
 			return res.status(500).send({ error: 'Interal Error...' });
 		}
 		let users;
-		if(os == "WINDOWS") {
-			users = data.toString().split('\r\n');
-		} else {
-			users = data.toString().split('\n')
-		}
+		users = data.toString().split(os.EOL);
 		let foundUser = false;
 		users.forEach((element) => {
 			let history = element.split(',');
@@ -427,23 +417,23 @@ exports.fetchUserBooks = async (req, res, next) => {
 				});
 
 				Promise.all(promises)
-				.then(
-					function (results) {
-						results.forEach((result) => {
-							console.log("Result:", result);
-							if (result) books.push(result);
-						});
-						if (books.length == 0)
-							res.status(404).send('No Books Found');
-						else res.status(200).send(books);
-					}.bind({ books: books })
-				)
-				.catch(function (err) {
-					res.status(500).send({ error: err });
-				});
+					.then(
+						function (results) {
+							results.forEach((result) => {
+								console.log('Result:', result);
+								if (result) books.push(result);
+							});
+							if (books.length == 0)
+								res.status(404).send('No Books Found');
+							else res.status(200).send(books);
+						}.bind({ books: books })
+					)
+					.catch(function (err) {
+						res.status(500).send({ error: err });
+					});
 			}
 		});
-		if(!foundUser) {
+		if (!foundUser) {
 			res.status(404).send({ error: "You haven't opened a book yet..." });
 		}
 	});

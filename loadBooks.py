@@ -19,7 +19,7 @@ def addBooks(start,end):
 
     # open file in read mode
     i = 0
-    with open('books.csv', 'r') as read_obj:
+    with open('books.csv', 'r', encoding='utf-8') as read_obj:
         # pass the file object to DictReader() to get the DictReader object
         csv_dict_reader = csv.DictReader(read_obj)
         # iterate over each line as a ordered dictionary
@@ -61,4 +61,4 @@ def batchInsertof500(start_at=0):
     print(errors)
 
 # batchInsertof500(9000)
-# batchInsertof500()
+batchInsertof500()
