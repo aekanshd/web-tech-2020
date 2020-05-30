@@ -10,10 +10,14 @@ import time
 import os
 from dotenv import load_dotenv
 
-load_dotenv(dotenv_path=os.path.dirname(os.path.abspath(__file__))+"/backend/.env", verbose=True)
+env_file = os.path.abspath(os.path.join(__file__,"../../..",".env"))
+print(__file__)
+print(env_file)
+load_dotenv(dotenv_path=env_file, verbose=True)
 base_dir = os.getenv("PYTHON_FILE_LOCATION")
 driver_file_location = os.getenv("WEBDRIVER_FILE_LOCATION")
 browser = os.getenv("CHROME_OR_FIREFOX")
+
 if browser == "CHROME":
     driver = webdriver.Chrome(executable_path=driver_file_location)
 elif browser == "FIREFOX":
@@ -27,7 +31,8 @@ else:
     tests_to_run = Which tests to run? Mention them in order.
 '''
 debug = False
-tests_to_run = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+# tests_to_run = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+tests_to_run = [1]
 
 '''
     Begin Testing...
