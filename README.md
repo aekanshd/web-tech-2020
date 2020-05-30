@@ -2,10 +2,21 @@
 A repository for Mini Project of Web Tech 2, 6th Sem, Computer Science, PES University. 
 
 ## Tools
-  MongoDB
-  Express
-  React
-  Node
+  - MongoDB
+  - Express
+  - React
+  - Node
+
+## Book Data Import
+
+Uncomment [this line](loadBooks.py#L64) and then run:
+
+```shell
+source venv/bin/activate
+pip install -r requirements.txt
+python loadBooks.py > output.txt
+```
+
 # Phase 1
 ## Deliverables
   - Backend ML - Market Basket Analysis (Done)
@@ -23,10 +34,10 @@ A repository for Mini Project of Web Tech 2, 6th Sem, Computer Science, PES Univ
   - User search history stats (Done)
   
 # Phase 2
-  - Fix the GUI - Modal Issue (Pending)
+  - Fix the GUI - Modal Issue (Done)
   - Connect Recommendation API to main site (Done)
-  - Unit Testing (Pending)
-  - System Testing (Pending)
-  - Performance Testing (Pending)
+  - Unit Testing (Done)
+  - System Testing (Done)
+  - Performance Testing (Done)
   - Vulnerability Testing (Pending)
     

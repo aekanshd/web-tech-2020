@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import {
+	BrowserRouter as Router,
+	Route,
+	Redirect,
+} from 'react-router-dom';
 // import './index.css';
 import './styles/main.css';
 import App from './App';
@@ -9,18 +13,24 @@ import About from './components/About';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Profile from './components/Profile';
-import * as serviceWorker from './serviceWorker';
 import Detail from './components/Detail';
+import Recommendations from './components/Recommendations';
+
+import * as serviceWorker from './serviceWorker';
 
 function PrivateRoute({ component: Component, ...rest }) {
 	return (
 		<Route
 			{...rest}
-			render={() => localStorage.getItem("loggedin") == "true"
-				? <Component />
-				: <Redirect to={{ pathname: '/login' }} />}
+			render={() =>
+				localStorage.getItem('loggedin') === 'true' ? (
+					<Component />
+				) : (
+					<Redirect to={{ pathname: '/login' }} />
+				)
+			}
 		/>
-	)
+	);
 }
 
 function AppRouter() {
@@ -29,12 +39,13 @@ function AppRouter() {
 			<Router>
 				<Navbar />
 				<div>
-					<Route path="/" exact component={App} />
-					<Route path="/about/" component={About} />
-					<Route path="/login/" component={Login} />
-					<Route path="/signup/" component={Signup} />
-					<Route path="/book/" component={Detail} />
-					<PrivateRoute path="/profile/" component={Profile} />
+					<Route path='/' exact component={App} />
+					<Route path='/about/' component={About} />
+					<Route path='/login/' component={Login} />
+					<Route path='/signup/' component={Signup} />
+					<Route path='/book/:isbn' component={Detail} />
+					<PrivateRoute path='/profile/' component={Profile} />
+					<PrivateRoute path='/recommendations/' component={Recommendations} />
 				</div>
 			</Router>
 		</div>

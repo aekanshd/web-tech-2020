@@ -1,3 +1,4 @@
+import warnings
 from flask import Flask, jsonify, request, abort
 import pandas
 import pandas as pd
@@ -151,7 +152,7 @@ def get_recommend():
     #print("SYS", sys.argv[1])
     
     u_id = sys.argv[1]
-    with open('history.csv', 'r') as f:
+    with open(base_dir+'/backend/history.csv', 'r') as f:
         reader = csv.reader(f)
         
         for i, line in enumerate(reader):
@@ -164,14 +165,14 @@ def get_recommend():
         #print(history[u_id])
         recommendation = market_basket(history[u_id], purchases)
         
-        print(u_id)
+        # print(u_id)
         recommendation = list(filter(lambda a:a!="", recommendation))
         json_dump = json.dumps({"user":u_id, "books":recommendation});
         #print(recommendation)
         #print(json_dump)
         
-        for i in recommendation:
-            print(i)
+        # for i in recommendation:
+            # print(i)
             
         return json_dump
         
@@ -179,5 +180,5 @@ def get_recommend():
         json_dump = json.dumps({"user":u_id, "books":[]});
         return json_dump;
         
-get_recommend()
-
+x = get_recommend()
+print(x)
