@@ -34,10 +34,10 @@ python loadBooks.py > output.txt
   - User search history stats (Done)
   
 # Phase 2
-  - Fix the GUI - Modal Issue (Pending)
+  - Fix the GUI - Modal Issue (Done)
   - Connect Recommendation API to main site (Done)
-  - Unit Testing (Pending)
-  - System Testing (Pending)
-  - Performance Testing (Pending)
+  - Unit Testing (Done)
+  - System Testing (Done)
+  - Performance Testing (Done)
   - Vulnerability Testing (Pending)
     

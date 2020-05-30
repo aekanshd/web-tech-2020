@@ -108,8 +108,9 @@ exports.fetchUser = (req, res, next) => {
 	});
 };
 
-exports.deleteUser = (req, res, response) => {
-	user.find({ username: req.params.username }, (err, users) => {
+exports.deleteUser = (req, res, next) => {
+	console.log("Deleting user...");
+	return user.find({ username: req.params.username }, (err, users) => {
 		if (err) {
 			console.log('Error :,\n', err);
 			return res.status(500).send({ error: 'Interal Error...' });
@@ -118,7 +119,7 @@ exports.deleteUser = (req, res, response) => {
 			console.log('Error : Invalid Username');
 			return res.status(404).send({ error: 'Invalid Username' });
 		}
-		user.deleteOne({ _id: users[0]._id }, (err, users) => {
+		return user.deleteOne({ _id: users[0]._id }, (err, users) => {
 			if (err) {
 				console.log('Error :,\n', err);
 				return res.status(500).send({ error: 'Interal Error...' });
