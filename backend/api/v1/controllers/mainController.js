@@ -341,7 +341,7 @@ exports.recommendBooks = (req, res, next) => {
 
 	console.log('Hello 2');
 
-	let username = req.query.user;
+	let username = req.query.username;
 	console.log(username);
 	let options = {
 		mode: 'text',

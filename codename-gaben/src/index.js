@@ -14,6 +14,8 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import Profile from './components/Profile';
 import Detail from './components/Detail';
+import Recommendations from './components/Recommendations';
+
 import * as serviceWorker from './serviceWorker';
 
 function PrivateRoute({ component: Component, ...rest }) {
@@ -43,6 +45,7 @@ function AppRouter() {
 					<Route path='/signup/' component={Signup} />
 					<Route path='/book/:isbn' component={Detail} />
 					<PrivateRoute path='/profile/' component={Profile} />
+					<PrivateRoute path='/recommendations/' component={Recommendations} />
 				</div>
 			</Router>
 		</div>

@@ -22,17 +22,11 @@ class Profile extends Component {
 	get renderBooks() {
 		let books = (
 			<h1 className='mt-6 mb-6 text-center leading-9 text-3xl text-gray-500'>
-				Try searching for a book...
+				You haven't opened a book yet...
 			</h1>
 		);
 		if (this.state.books) {
 			books = <Books list={this.state.books} />;
-		} else {
-			books = (
-				<h1 className='mt-6 mb-6 text-center leading-9 text-3xl text-gray-500'>
-					You haven't opened a book yet...
-				</h1>
-			);
 		}
 		return books;
 	}
