@@ -133,7 +133,7 @@ def association_rules(order_item, min_support, rawdata):
 
 def market_basket(user_purchases, all_purchases):
     recommendations = []
-    rules = association_rules(all_purchases, 0.002, all_purchases)
+    rules = association_rules(all_purchases, 0.02, all_purchases)
     
     
     

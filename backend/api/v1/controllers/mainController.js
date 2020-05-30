@@ -358,7 +358,29 @@ exports.recommendBooks = (req, res, next) => {
 		// results is an array consisting of messages collected during execution
 		console.log('results: %j', results);
 		const json_result = JSON.parse(results);
-		return res.status(200).send(json_result);
+		let books = [];
+		let promises = [];
+
+		json_result['books'].forEach((element) => {
+			console.log('Searching for ISBN13:', element);
+			promises.push(book.findOne({ isbn13: element }));
+		});
+
+		return Promise.all(promises)
+		.then(
+			function (results) {
+				results.forEach((result) => {
+					console.log('Result:', result);
+					if (result) books.push(result);
+				});
+				if (books.length == 0)
+					res.status(404).send('No Books Found');
+				else res.status(200).send(books.splice(0, 3));
+			}.bind({ books: books })
+		)
+		.catch(function (err) {
+			res.status(500).send({ error: err });
+		});
 	});
 	return;
 };
