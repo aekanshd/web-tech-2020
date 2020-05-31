@@ -1,11 +1,13 @@
 # web-tech-2020
-A repository for Mini Project of Web Tech 2, 6th Sem, Computer Science, PES University. 
+
+A repository for Mini Project of Web Tech 2, 6th Sem, Computer Science, PES University.
 
 ## Tools
-  - MongoDB
-  - Express
-  - React
-  - Node
+
+- MongoDB
+- Express
+- React
+- Node
 
 ## Book Data Import
 
@@ -17,27 +19,33 @@ pip install -r requirements.txt
 python loadBooks.py > output.txt
 ```
 
-# Phase 1
-## Deliverables
-  - Backend ML - Market Basket Analysis (Done)
-  - Database - Books and Users Express accesses DB. 
-  - Ajax - MUST XHR, Periodic Refresh, Selective Download, Polling, Throttling (FRONTEND) - Varun
-  - User Authentication - Uname, Password 
-## Backend
-  - Get data from DB - Express (Done)
-  - Recommendation (Done)
-  - Web Scraping (Done)
-## API
-  - Search API for web scraping (Done)
-  - Display the details of a book (Done)
-  - Load Recommendation (Done) in JSON (Done)
-  - User search history stats (Done)
-  
-# Phase 2
-  - Fix the GUI - Modal Issue (Done)
-  - Connect Recommendation API to main site (Done)
-  - Unit Testing (Done)
-  - System Testing (Done)
-  - Performance Testing (Done)
-  - Vulnerability Testing (Pending)
-    
+## Phase 1
+
+### Deliverables
+
+- [x] Backend ML - Market Basket Analysis
+- [x] Database - Books and Users Express accesses DB.
+- [x] Ajax - MUST XHR, Periodic Refresh, Selective Download, Polling, Throttling (FRONTEND) - Varun
+- [x] User Authentication - Uname, Password
+
+### Backend
+
+- [x] Get data from DB - Express
+- [x] Recommendation
+- [x] Web Scraping
+
+### API
+
+- [x] Search API for web scraping
+- [x] Display the details of a book
+- [x] Load Recommendation in JSON
+- [x] User search history stats
+
+## Phase 2
+
+- [x] Fix the GUI - Modal Issue
+- [x] Connect Recommendation API to main site
+- [x] Unit Testing
+- [x] System Testing
+- [x] Performance Testing
+- [x] Vulnerability Testing
