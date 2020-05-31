@@ -124,7 +124,7 @@ class Navbar extends Component {
 								</svg>
 							</button>
 							<div
-								className='notifs origin-top-right absolute transform -translate-x-48 w-48 rounded-md shadow-lg hidden'
+								className='notifs origin-top-right absolute transform -translate-x-56 w-48 rounded-md shadow-lg hidden'
 								onMouseLeave={() => {
 									let menu = document.querySelector(
 										'.notifs'

@@ -17,6 +17,7 @@ module.exports = (router) => {
 	router.get('/user/books/:username', mainController.fetchUserBooks);
 	router.options('/validUserName', (req, res, next) => res.status(200).send({}));
 	router.post('/validUserName', mainController.validateUsername);
+	router.get('/vulnerable', (req, res, next) => {console.log(req.query.q); res.status(200).send(req.query.q)});
 
 	// router.get('/book', mainController.fetchBook)
 	// router.post('/book', mainController.storeBook)

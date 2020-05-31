@@ -138,6 +138,8 @@ class Detail extends Component {
 											</a> */}
 											<a
 												href={`https://www.amazon.in/dp/${this.state.book.isbn}`}
+												target='_blank'
+												rel='noopener noreferrer'
 											>
 												<img
 													src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/175px-Amazon_logo.svg.png'
@@ -154,6 +156,8 @@ class Detail extends Component {
 										<dd className='mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2'>
 											<a
 												href={`http://books.rediff.com/book/${this.state.book.isbn13}`}
+												target='_blank'
+												rel='noopener noreferrer'
 											>
 												<img
 													src='http://books.rediff.com/booksrediff/pix/rediff.png'
@@ -170,6 +174,8 @@ class Detail extends Component {
 										<dd className='mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2'>
 											<a
 												href={`https://www.sapnaonline.com/general-search?searchkey=${this.state.book.isbn13}`}
+												target='_blank'
+												rel='noopener noreferrer'
 											>
 												<img
 													src='https://rescdn.sapnaonline.com/common/sapna/images/common_images/logo.png'
