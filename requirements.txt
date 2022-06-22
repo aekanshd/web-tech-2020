@@ -14,7 +14,7 @@ MarkupSafe==1.1.1
 matplotlib==3.2.1
 mccabe==0.6.1
 mlxtend==0.17.2
-numpy==1.18.2
+numpy==1.22.0
 pandas==1.0.3
 pycodestyle==2.6.0
 pylint==2.4.4
